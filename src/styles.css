@@ -1,0 +1,428 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@import "@fontsource/poppins/300.css";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-indigo-glow: #ffd4b8;
+  --color-indigo-deep: #ff8a4c;
+  --color-violet-glow: #ffb088;
+
+  --color-gradient-start: #ffd4b8;
+  --color-gradient-mid: #ff8a4c;
+  --color-gradient-end: #ffb088;
+}
+
+:root {
+  --radius: 1rem;
+
+  /* Premium dark */
+  --background: #0A0A0E;
+  --foreground: #f4f5ff;
+  --surface: rgba(255,255,255,0.04);
+
+  --card: rgba(255,255,255,0.035);
+  --card-foreground: #f4f5ff;
+  --popover: #14141c;
+  --popover-foreground: #f4f5ff;
+
+  --primary: #ff8a4c;
+  --primary-foreground: #ffffff;
+
+  --secondary: rgba(255,255,255,0.06);
+  --secondary-foreground: #f4f5ff;
+
+  --muted: rgba(255,255,255,0.04);
+  --muted-foreground: #a5a8c8;
+
+  --accent: #1e1e5a;
+  --accent-foreground: #f4f5ff;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #ff8a4c;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    body { cursor: none; }
+    a, button, [role="button"], input, textarea, select { cursor: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  ::selection {
+    background: rgba(255, 138, 76, 0.45);
+    color: #fff;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+  font-weight: 300;
+}
+
+/* Force a uniformly light Poppins look across the app */
+.font-bold, .font-semibold { font-weight: 400 !important; }
+.font-medium { font-weight: 300 !important; }
+h1, h2, h3, h4, h5, h6 { font-weight: 400; }
+
+@utility text-gradient {
+  background-image: linear-gradient(135deg, #ffd4b8 0%, #ff8a4c 50%, #ffb088 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility bg-gradient-ailo {
+  background-image: linear-gradient(135deg, #ffd4b8 0%, #ff8a4c 50%, #ffb088 100%);
+}
+
+@utility hairline {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- Glass card (premium glassmorphism) ---------- */
+@utility glass-card {
+  position: relative;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.035);
+  overflow: hidden;
+  isolation: isolate;
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 20px 50px -25px rgba(0, 0, 0, 0.6);
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, transform 0.45s cubic-bezier(.2,.7,.2,1);
+  will-change: transform;
+}
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(28px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 36px 70px -25px rgba(124, 58, 237, 0.45);
+}
+/* Continuous ambient float — staggered so cards never move in unison */
+@keyframes float-y {
+  0%, 100% { translate: 0 -4px; }
+  50%      { translate: 0  4px; }
+}
+.glass-card {
+  animation: float-y 5.5s ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+.glass-card:hover { animation-play-state: paused; }
+.glass-card:nth-child(3n)   { --float-delay: -1.2s; animation-duration: 6.2s; }
+.glass-card:nth-child(3n+1) { --float-delay: -2.7s; animation-duration: 4.8s; }
+.glass-card:nth-child(3n+2) { --float-delay: -3.9s; animation-duration: 5.8s; }
+@media (prefers-reduced-motion: reduce) {
+  .glass-card { animation: none; }
+}
+/* Animated gradient border */
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(167,139,250,0.0), rgba(255,138,76,0.0));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease, background 0.35s ease;
+  pointer-events: none;
+}
+.glass-card:hover::before {
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(167,139,250,0.6), rgba(255,138,76,0.6) 50%, rgba(167,139,250,0.6));
+}
+/* Cursor-tracked sheen inside each card */
+.glass-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(255,180,140,0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.glass-card:hover::after { opacity: 1; }
+/* Content lift inside glass cards on hover */
+.glass-card > * { transition: transform 0.4s cubic-bezier(.2,.7,.2,1); position: relative; z-index: 1; }
+.glass-card:hover > * { transform: translateY(-3px); }
+
+
+@utility glow-indigo {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124, 58, 237, 0.18) 0%, transparent 60%),
+    rgba(255, 255, 255, 0.035);
+}
+@utility glow-violet {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 122, 89, 0.18) 0%, transparent 60%),
+    rgba(255, 255, 255, 0.035);
+}
+@utility glow-deep {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(49, 46, 129, 0.25) 0%, transparent 60%),
+    rgba(255, 255, 255, 0.035);
+}
+
+@utility text-indigo-glow {
+  background-image: linear-gradient(180deg, #ffb088 0%, #ff8a4c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+@utility text-violet-glow {
+  background-image: linear-gradient(180deg, #ffb088 0%, #ea580c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Light-mode override: deeper pinks so gradient text stays legible on white */
+.light .text-indigo-glow {
+  background-image: linear-gradient(180deg, #ff8a4c 0%, #c2410c 100%);
+}
+.light .text-violet-glow {
+  background-image: linear-gradient(180deg, #ff8a4c 0%, #9a3412 100%);
+}
+
+/* Indigo beam */
+@utility beam-light {
+  background:
+    radial-gradient(ellipse 58% 42% at 82% 4%, rgba(255, 138, 76, 0.18) 0%, transparent 58%),
+    conic-gradient(from 205deg at 76% -12%, transparent 0deg, rgba(255, 212, 184, 0.12) 10deg, transparent 24deg);
+  filter: blur(52px);
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.32; }
+  50% { opacity: 0.52; }
+}
+@utility animate-glow-pulse {
+  animation: glow-pulse 5s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%   { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  25%  { transform: translate3d(60px, -40px, 0) scale(1.08) rotate(4deg); }
+  50%  { transform: translate3d(20px, 50px, 0) scale(0.96) rotate(-3deg); }
+  75%  { transform: translate3d(-50px, 10px, 0) scale(1.05) rotate(2deg); }
+  100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+}
+@utility animate-drift {
+  animation: drift 28s ease-in-out infinite;
+}
+
+
+@keyframes shimmer-bar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+@utility animate-shimmer-bar {
+  animation: shimmer-bar 3s ease-in-out infinite;
+}
+
+@keyframes draw-line {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+/* ================================================================ */
+/* LIGHT THEME — Lexaro-inspired clean light look                     */
+/* ================================================================ */
+.light {
+  --background: #ffffff;
+  --foreground: #0a0a1a;
+  --surface: #f6f6fa;
+
+  --card: #ffffff;
+  --card-foreground: #0a0a1a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a1a;
+
+  --primary: #0a0a1a;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f0f0f5;
+  --secondary-foreground: #0a0a1a;
+
+  --muted: #f0f0f5;
+  --muted-foreground: #6b6b80;
+
+  --accent: #f0f0f5;
+  --accent-foreground: #0a0a1a;
+
+  --border: rgba(10, 10, 26, 0.08);
+  --input: rgba(10, 10, 26, 0.12);
+  --ring: #0a0a1a;
+}
+
+.light body {
+  background: #ffffff;
+}
+
+.light ::selection {
+  background: rgba(10, 10, 26, 0.15);
+  color: #0a0a1a;
+}
+
+/* Glass / glow surfaces */
+.light .glass-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(246,246,250,0.72) 100%);
+  border: 1px solid rgba(10, 10, 26, 0.08);
+  backdrop-filter: blur(20px);
+}
+.light .glow-indigo {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 138, 76, 0.10) 0%, transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #fafafd 100%);
+}
+.light .glow-violet {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 176, 136, 0.10) 0%, transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #fafafd 100%);
+}
+.light .glow-deep {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 212, 184, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #fafafd 100%);
+}
+
+/* Soften the hero beam in light mode */
+.light .beam-light {
+  background:
+    radial-gradient(ellipse 60% 40% at 80% 0%, rgba(255, 138, 76, 0.18) 0%, transparent 55%),
+    conic-gradient(from 200deg at 75% -10%, transparent 0deg, rgba(255, 212, 184, 0.14) 12deg, transparent 25deg);
+}
+
+/* Solid-black text overrides → dark navy in light */
+.light .text-white { color: #0a0a1a !important; }
+
+/* Tailwind opacity whites → dark navy with same alpha */
+.light .text-white\/40 { color: rgba(10, 10, 26, 0.45) !important; }
+.light .text-white\/50 { color: rgba(10, 10, 26, 0.55) !important; }
+.light .text-white\/60 { color: rgba(10, 10, 26, 0.65) !important; }
+.light .text-white\/70 { color: rgba(10, 10, 26, 0.7) !important; }
+.light .text-white\/80 { color: rgba(10, 10, 26, 0.8) !important; }
+
+.light .border-white\/5 { border-color: rgba(10, 10, 26, 0.06) !important; }
+.light .border-white\/8 { border-color: rgba(10, 10, 26, 0.08) !important; }
+.light .border-white\/10 { border-color: rgba(10, 10, 26, 0.1) !important; }
+.light .bg-white\/5 { background-color: rgba(10, 10, 26, 0.04) !important; }
+.light .bg-white\/8,
+.light .bg-white\/10 { background-color: rgba(10, 10, 26, 0.06) !important; }
+
+.light .bg-black\/40 { background-color: rgba(10, 10, 26, 0.04) !important; }
+
+/* Indigo accent text remains indigo gradient (works on both themes) */
+
+/* Marquee gradient masks need to match the new background */
+.light .from-background { --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important; }
+.light .to-background   { --tw-gradient-to:   #ffffff var(--tw-gradient-to-position)   !important; }
+
+/* Cursor follower disabled feel — keep visible but tone it down in light */
+.light .bg-indigo-400 { background-color: #ff8a4c !important; }
+
+/* ---------- Site nav (dark by default, white in light) ---------- */
+.ailo-nav {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 12px 30px -12px rgba(0, 0, 0, 0.7);
+}
+.ailo-nav-brand { color: #ffffff; }
+.ailo-nav-link { color: rgba(255, 255, 255, 0.8); }
+.ailo-nav-link:hover, .ailo-nav-link.is-active { color: #ffffff; }
+.ailo-nav-link:hover { background: transparent; }
+.ailo-nav .ailo-nav-link:hover { background: rgba(255,255,255,0.04); }
+
+.light .ailo-nav {
+  background: #ffffff;
+  border-color: #f4f4f5;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.light .ailo-nav-brand { color: #09090b; }
+.light .ailo-nav-link { color: #09090b; }
+.light .ailo-nav-link:hover { color: #52525b; }
+.light .ailo-nav .ailo-nav-link:hover { background: #f4f4f5; }
+
