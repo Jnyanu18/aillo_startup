@@ -22,6 +22,7 @@ import { GradientText } from "@/components/ui/gradient-text";
 import { FeatureCard } from "@/components/ui/feature-card";
 import { Reveal } from "@/components/reveal";
 import { PageChrome } from "@/components/page-chrome";
+import { FinalCta } from "@/components/final-cta";
 import { TiltGrid } from "@/components/motion/tilt-grid";
 import { AnimatedGlyph, type GlyphAnim } from "@/components/explainers/animated-glyph";
 
@@ -279,10 +280,11 @@ function BuildEngineering() {
 function ServicesPage() {
   return (
     <PageChrome>
-      {() => (
+      {(openBooking) => (
         <div className="pt-20 md:pt-24">
           <AgencyServices />
           <BuildEngineering />
+          <FinalCta onCta={() => openBooking()} />
         </div>
       )}
     </PageChrome>

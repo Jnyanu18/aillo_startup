@@ -12,6 +12,17 @@ import { Check, Loader2 } from "lucide-react";
 import { submitLead } from "@/lib/leads.functions";
 import { leadInputSchema, SERVICE_INTERESTS, type LeadInput } from "@/lib/leads.schema";
 
+const COUNTRY_CODES = [
+  { code: "+91", label: "IN +91" },
+  { code: "+1", label: "US +1" },
+  { code: "+44", label: "UK +44" },
+  { code: "+971", label: "UAE +971" },
+  { code: "+65", label: "SG +65" },
+  { code: "+61", label: "AU +61" },
+  { code: "+49", label: "DE +49" },
+  { code: "+81", label: "JP +81" },
+] as const;
+
 interface ConsultationDialogProps {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -29,6 +40,7 @@ export function ConsultationDialog({
 }: ConsultationDialogProps) {
   const [sent, setSent] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [countryCode, setCountryCode] = useState<string>(COUNTRY_CODES[0].code);
   const submit = useServerFn(submitLead);
 
   const form = useForm<LeadInput>({
@@ -60,7 +72,8 @@ export function ConsultationDialog({
   const onSubmit = async (data: LeadInput) => {
     setErrorMsg(null);
     try {
-      await submit({ data });
+      const phone = data.phone?.trim() ? `${countryCode} ${data.phone.trim()}` : data.phone;
+      await submit({ data: { ...data, phone } });
       setSent(true);
     } catch (e: any) {
       setErrorMsg(e?.message || "Something went wrong. Please try again.");
@@ -80,7 +93,7 @@ export function ConsultationDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-h-[92vh] overflow-y-auto border-border bg-surface sm:max-w-lg">
+      <DialogContent className="max-h-[92vh] overflow-y-auto border-border bg-background sm:max-w-lg">
         {sent ? (
           <div className="py-8 text-center">
             <div className="bg-gradient-ailo mx-auto flex h-14 w-14 items-center justify-center rounded-full">
@@ -89,8 +102,8 @@ export function ConsultationDialog({
             <h2 className="font-display mt-6 text-2xl font-semibold">Thanks — we'll be in touch.</h2>
             <p className="mt-3 text-sm text-muted-foreground">
               We typically reply within one business day. Meanwhile, you can reach us at{" "}
-              <a href="mailto:hello@ailo.ai" className="text-gradient">
-                hello@ailo.ai
+              <a href="mailto:info@accelerationlogics.com" className="text-gradient">
+                info@accelerationlogics.com
               </a>
               .
             </p>
@@ -120,16 +133,30 @@ export function ConsultationDialog({
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Name" error={form.formState.errors.name?.message}>
-                  <Input {...form.register("name")} placeholder="Jane Doe" />
+                  <Input {...form.register("name")} placeholder="Enter your name" />
                 </Field>
                 <Field label="Email" error={form.formState.errors.email?.message}>
-                  <Input type="email" {...form.register("email")} placeholder="jane@company.com" />
+                  <Input type="email" {...form.register("email")} placeholder="Enter your email id" />
                 </Field>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Phone (optional)">
-                  <Input {...form.register("phone")} placeholder="+00 0000 000 000" />
+                  <div className="flex gap-2">
+                    <Select value={countryCode} onValueChange={setCountryCode}>
+                      <SelectTrigger className="w-23 shrink-0">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {COUNTRY_CODES.map((c) => (
+                          <SelectItem key={c.code} value={c.code}>
+                            {c.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Input {...form.register("phone")} placeholder="98765 43210" className="flex-1" />
+                  </div>
                 </Field>
                 <Field label="Company">
                   <Input {...form.register("company")} placeholder="Acme Inc." />
