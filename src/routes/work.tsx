@@ -4,6 +4,7 @@ import { SectionLabel } from "@/components/ui/section-label";
 import { GradientText } from "@/components/ui/gradient-text";
 import { Reveal } from "@/components/reveal";
 import { PageChrome } from "@/components/page-chrome";
+import { FinalCta } from "@/components/final-cta";
 import { TiltGrid } from "@/components/motion/tilt-grid";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -58,7 +59,8 @@ function WorkPage() {
 
   return (
     <PageChrome>
-      {() => (
+      {(openBooking) => (
+        <>
         <section id="work" className="scroll-mt-20 pt-28 pb-8 md:pt-36 md:pb-12">
           <Container>
             <Reveal>
@@ -92,6 +94,8 @@ function WorkPage() {
             </Reveal>
           </Container>
         </section>
+        <FinalCta onCta={() => openBooking()} heading="see similar results?" />
+        </>
       )}
     </PageChrome>
   );

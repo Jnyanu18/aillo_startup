@@ -7,6 +7,7 @@ import { GradientText } from "@/components/ui/gradient-text";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
 import { PageChrome } from "@/components/page-chrome";
+import { FinalCta } from "@/components/final-cta";
 import { TiltGrid } from "@/components/motion/tilt-grid";
 import {
   AutomationExplainer,
@@ -103,6 +104,7 @@ function SolutionsPage() {
   return (
     <PageChrome>
       {(openBooking) => (
+        <>
         <section className="scroll-mt-20 pt-28 pb-8 md:pt-36 md:pb-12">
           <Container>
             <Reveal>
@@ -145,6 +147,8 @@ function SolutionsPage() {
             </Reveal>
           </Container>
         </section>
+        <FinalCta onCta={() => openBooking()} heading="build this in?" />
+        </>
       )}
     </PageChrome>
   );

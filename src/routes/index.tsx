@@ -115,9 +115,6 @@ function Hero({ onCta }: { onCta: () => void }) {
         <HeroIntro delay={0.55}>
           <div className="mt-10 grid gap-4 md:grid-cols-[1.4fr_1fr]">
             <div className="glass-card glow-indigo flex items-center gap-5 p-6">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-black/40">
-                <Sparkles className="h-6 w-6 text-pink-200" />
-              </div>
               <div className="min-w-0">
                 <div className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50">
                   Latest case study
@@ -557,11 +554,11 @@ function FinalCta({ onCta }: { onCta: () => void }) {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
             <a
               className="inline-flex items-center gap-2 hover:text-foreground"
-              href="mailto:hello@ailo.ai"
+              href="mailto:info@accelerationlogics.com"
             >
-              <Mail className="h-4 w-4" /> hello@ailo.ai
+              <Mail className="h-4 w-4" /> info@accelerationlogics.com
             </a>
-            <span>www.ailo.ai</span>
+            <span>www.accelerationlogics.com</span>
           </div>
         </Reveal>
       </Container>

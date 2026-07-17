@@ -6,6 +6,7 @@ import { SectionLabel } from "@/components/ui/section-label";
 import { GradientText } from "@/components/ui/gradient-text";
 import { Reveal } from "@/components/reveal";
 import { PageChrome } from "@/components/page-chrome";
+import { FinalCta } from "@/components/final-cta";
 import { TiltGrid } from "@/components/motion/tilt-grid";
 import {
   FundamentalsExplainer,
@@ -100,7 +101,8 @@ function ExplainerCard({
 function HirePage() {
   return (
     <PageChrome>
-      {() => (
+      {(openBooking) => (
+        <>
         <section className="scroll-mt-20 pt-28 pb-8 md:pt-36 md:pb-12">
           <Container>
             <Reveal>
@@ -128,6 +130,8 @@ function HirePage() {
             </Reveal>
           </Container>
         </section>
+        <FinalCta onCta={() => openBooking()} heading="upskill your team?" />
+        </>
       )}
     </PageChrome>
   );

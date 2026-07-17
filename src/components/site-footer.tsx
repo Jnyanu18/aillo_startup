@@ -22,8 +22,11 @@ export function SiteFooter() {
             </div>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <a href="mailto:hello@ailo.ai" className="hover:text-gradient transition-colors">
-                  hello@ailo.ai
+                <a
+                  href="mailto:info@accelerationlogics.com"
+                  className="hover:text-gradient transition-colors"
+                >
+                  info@accelerationlogics.com
                 </a>
               </li>
               <li>
@@ -31,7 +34,7 @@ export function SiteFooter() {
                   {CONTACT_PHONE_DISPLAY}
                 </a>
               </li>
-              <li className="text-muted-foreground">www.ailo.ai</li>
+              <li className="text-muted-foreground">www.accelerationlogics.com</li>
 
             </ul>
           </div>

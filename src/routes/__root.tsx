@@ -113,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: "AILO",
           description:
             "AI & technology consulting agency for small and medium businesses.",
-          email: "hello@ailo.ai",
+          email: "info@accelerationlogics.com",
         }),
       },
     ],
