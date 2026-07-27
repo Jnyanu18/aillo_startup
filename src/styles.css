@@ -286,6 +286,17 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
   animation: drift 28s ease-in-out infinite;
 }
 
+/* Ambient backdrop blobs are decorative — on mobile, the continuous
+   translate+scale animation forces the browser to re-rasterize a large
+   blurred layer every frame, which is expensive on weaker GPUs. Freeze
+   them static and halve the blur radius there; desktop is unaffected. */
+@media (max-width: 768px) {
+  .ambient-blob {
+    animation: none !important;
+    filter: blur(32px);
+  }
+}
+
 
 @keyframes shimmer-bar {
   0% { transform: translateX(-100%); }

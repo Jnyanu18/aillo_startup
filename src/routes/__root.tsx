@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AmbientBackdrop } from "@/components/ambient-backdrop";
 import { MouseSpotlight } from "@/components/motion/mouse-spotlight";
 import { GlassFx } from "@/components/motion/glass-fx";
+import { SOCIAL_LINKS } from "@/lib/site-config";
 
 
 function NotFoundComponent() {
@@ -81,11 +82,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#08080d" },
       { title: "AILO — Acceleration logics for modern business" },
       {
         name: "description",
         content:
-          "AI & technology partner for SMEs. Build, automate, grow — one team for everything you need to scale.",
+          "AILO (Acceleration Logics) is an AI & technology partner for SMEs. Build, automate, grow — one team for everything you need to scale.",
       },
       { name: "author", content: "AILO" },
       { property: "og:site_name", content: "AILO" },
@@ -93,14 +95,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary" },
       { property: "og:title", content: "AILO — Acceleration logics for modern business" },
       { name: "twitter:title", content: "AILO — Acceleration logics for modern business" },
-      { name: "description", content: "A full-stack web app for AILO, an AI & technology consulting agency, to generate leads and showcase services." },
-      { property: "og:description", content: "A full-stack web app for AILO, an AI & technology consulting agency, to generate leads and showcase services." },
-      { name: "twitter:description", content: "A full-stack web app for AILO, an AI & technology consulting agency, to generate leads and showcase services." },
+      {
+        property: "og:description",
+        content:
+          "AILO (Acceleration Logics) is an AI & technology partner for SMEs. Build, automate, grow — one team for everything you need to scale.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "AILO (Acceleration Logics) is an AI & technology partner for SMEs. Build, automate, grow — one team for everything you need to scale.",
+      },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5c694e90-6a2a-4f4a-b668-afc5a844c36a/id-preview-e638ae28--0c708826-af3f-4fed-a247-088f7bc5bd50.lovable.app-1782401316290.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5c694e90-6a2a-4f4a-b668-afc5a844c36a/id-preview-e638ae28--0c708826-af3f-4fed-a247-088f7bc5bd50.lovable.app-1782401316290.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "apple-touch-icon", href: "/favicon.svg" },
     ],
     scripts: [
       {
@@ -109,9 +120,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "AILO",
+          alternateName: "Acceleration Logics",
+          url: "https://accelerationlogics.com",
+          logo: "https://accelerationlogics.com/favicon.svg",
           description:
             "AI & technology consulting agency for small and medium businesses.",
           email: "info@accelerationlogics.com",
+          sameAs: SOCIAL_LINKS.map((s) => s.href),
         }),
       },
     ],
