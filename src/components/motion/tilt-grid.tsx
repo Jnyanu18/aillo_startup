@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export function TiltGrid({
   children,
   className,
-  stagger = 0.06,
+  stagger = 0.035,
   as: As = "div",
 }: {
   children: ReactNode;
@@ -35,14 +35,14 @@ export function TiltGrid({
         onEnter: () => {
           gsap.fromTo(
             items,
-            { opacity: 0, y: 28, rotateX: -12 },
+            { opacity: 0, y: 14, rotateX: -6 },
             {
               opacity: 1,
               y: 0,
               rotateX: 0,
               transformPerspective: 1000,
               transformOrigin: "50% 100%",
-              duration: 0.85,
+              duration: 0.45,
               ease: "power3.out",
               stagger,
               clearProps: "opacity,transform",

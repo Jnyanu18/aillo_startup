@@ -4,15 +4,15 @@ import { cn } from "@/lib/utils";
 
 const container: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.035, delayChildren: 0.02 } },
 };
 const word: Variants = {
-  hidden: { opacity: 0, y: "0.6em", filter: "blur(10px)" },
+  hidden: { opacity: 0, y: "0.3em", filter: "blur(4px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
