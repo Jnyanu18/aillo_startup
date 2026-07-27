@@ -5,12 +5,12 @@ import { cn } from "@/lib/utils";
 type From = "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center";
 
 const OFFSETS: Record<From, { x: number; y: number; scale?: number }> = {
-  bottom: { x: 0, y: 60 },
-  "top-left": { x: -70, y: -40 },
-  "top-right": { x: 70, y: -40 },
-  "bottom-left": { x: -70, y: 50 },
-  "bottom-right": { x: 70, y: 50 },
-  center: { x: 0, y: 0, scale: 0.92 },
+  bottom: { x: 0, y: 24 },
+  "top-left": { x: -28, y: -18 },
+  "top-right": { x: 28, y: -18 },
+  "bottom-left": { x: -28, y: 22 },
+  "bottom-right": { x: 28, y: 22 },
+  center: { x: 0, y: 0, scale: 0.96 },
 };
 
 /**
@@ -37,16 +37,16 @@ export function Reveal({
     <motion.div
       className={cn(className)}
       style={{ willChange: "transform, opacity" }}
-      initial={{ opacity: 0, x: o.x, y: o.y, scale: o.scale ?? 0.96 }}
+      initial={{ opacity: 0, x: o.x, y: o.y, scale: o.scale ?? 0.98 }}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-80px", amount: 0.15 }}
+      viewport={{ once: true, margin: "-40px", amount: 0.1 }}
       transition={{
         type: "spring",
-        stiffness: 90,
-        damping: 15,
-        mass: 1,
+        stiffness: 260,
+        damping: 26,
+        mass: 0.9,
         delay,
-        opacity: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] },
+        opacity: { duration: 0.3, delay, ease: [0.22, 1, 0.36, 1] },
       }}
     >
       {children}

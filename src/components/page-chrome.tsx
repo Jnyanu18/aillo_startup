@@ -1,7 +1,12 @@
-import { useState, type ReactNode } from "react";
+import { lazy, Suspense, useState, type ReactNode } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { ConsultationDialog } from "@/components/consultation-dialog";
+
+// Lazy-loaded: pulls in react-hook-form + zod resolver + dialog/select UI,
+// which no visitor needs until they actually click "Book a consultation".
+const ConsultationDialog = lazy(() =>
+  import("@/components/consultation-dialog").then((m) => ({ default: m.ConsultationDialog })),
+);
 
 export type BookingPrefill = { serviceInterest?: string; message?: string };
 export type OpenBooking = (prefill?: BookingPrefill) => void;
@@ -12,9 +17,11 @@ export function PageChrome({
   children: (openBooking: OpenBooking) => ReactNode;
 }) {
   const [bookingOpen, setBookingOpen] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
   const [prefill, setPrefill] = useState<BookingPrefill>({});
   const openBooking: OpenBooking = (p = {}) => {
     setPrefill(p);
+    setHasOpened(true);
     setBookingOpen(true);
   };
 
@@ -25,12 +32,16 @@ export function PageChrome({
         <main className="relative">{children(openBooking)}</main>
         <SiteFooter />
       </div>
-      <ConsultationDialog
-        open={bookingOpen}
-        onOpenChange={setBookingOpen}
-        defaultServiceInterest={prefill.serviceInterest}
-        defaultMessage={prefill.message}
-      />
+      {hasOpened && (
+        <Suspense fallback={null}>
+          <ConsultationDialog
+            open={bookingOpen}
+            onOpenChange={setBookingOpen}
+            defaultServiceInterest={prefill.serviceInterest}
+            defaultMessage={prefill.message}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

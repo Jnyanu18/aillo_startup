@@ -34,9 +34,9 @@ export function OdometerNumber({
           gsap.from(digits, {
             yPercent: -110,
             opacity: 0,
-            duration: 0.9,
+            duration: 0.5,
             ease: "power3.out",
-            stagger: 0.06,
+            stagger: 0.035,
           });
         },
       });
