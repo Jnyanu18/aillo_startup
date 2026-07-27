@@ -295,6 +295,41 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
     animation: none !important;
     filter: blur(32px);
   }
+
+  /* .glass-card and the fixed nav both use a live backdrop-filter blur,
+     which forces the browser to resample everything behind them on
+     every scroll frame — one of the most expensive things a mobile GPU
+     can be asked to do while scrolling. .glass-card also runs a
+     continuous float animation regardless of scroll or visibility.
+     Drop both on mobile in favor of a solid approximation; desktop
+     keeps the full glassmorphism untouched. */
+  .glass-card,
+  .glass-card:hover {
+    animation: none !important;
+    backdrop-filter: none !important;
+    background: rgba(20, 20, 28, 0.72) !important;
+  }
+  .light .glass-card,
+  .light .glass-card:hover {
+    backdrop-filter: none !important;
+  }
+  .ailo-nav {
+    backdrop-filter: none !important;
+    background: rgba(18, 18, 26, 0.86) !important;
+  }
+  .light .ailo-nav {
+    backdrop-filter: none !important;
+  }
+
+  /* Full-width footer backdrop-blur is another large live-blur surface
+     that's expensive while it's in view during scroll. */
+  footer.backdrop-blur-xl {
+    backdrop-filter: none !important;
+    background: rgba(10, 10, 15, 0.6) !important;
+  }
+  .light footer.backdrop-blur-xl {
+    background: rgba(255, 255, 255, 0.85) !important;
+  }
 }
 
 
