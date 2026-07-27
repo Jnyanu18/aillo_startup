@@ -15,6 +15,15 @@ function rateLimit(key: string, limit: number, windowMs: number): boolean {
   return true;
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 // No storage anywhere, no third-party email service — a consultation request only ever
 // becomes an email sent directly through the info@accelerationlogics.com mailbox's own SMTP
 // (GoDaddy Workspace Email, per the domain's MX records).
@@ -61,10 +70,10 @@ async function sendLeadEmail(lead: {
     html: `
       <h2>New consultation request</h2>
       <table cellpadding="4">
-        ${rows.map(([k, v]) => `<tr><td><strong>${k}</strong></td><td>${v}</td></tr>`).join("")}
+        ${rows.map(([k, v]) => `<tr><td><strong>${escapeHtml(k)}</strong></td><td>${escapeHtml(v)}</td></tr>`).join("")}
       </table>
       <p><strong>Message</strong></p>
-      <p>${lead.message.replace(/\n/g, "<br/>")}</p>
+      <p>${escapeHtml(lead.message).replace(/\n/g, "<br/>")}</p>
     `,
   });
 }
