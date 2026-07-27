@@ -102,11 +102,6 @@
     font-feature-settings: "ss01", "cv11";
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    body { cursor: none; }
-    a, button, [role="button"], input, textarea, select { cursor: none; }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.001ms !important;
