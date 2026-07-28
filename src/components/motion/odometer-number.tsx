@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
-import { ensureGsap, prefersReducedMotion } from "@/lib/motion/gsap";
 import { cn } from "@/lib/utils";
 
 /**
- * Odometer-style number that rolls digits up once when it enters view.
- * Accepts any string (e.g. "01", "08.5"). Non-digit chars render static.
+ * Number that fades + slides up once when it enters view.
  */
 export function OdometerNumber({
   value,
@@ -20,58 +18,28 @@ export function OdometerNumber({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (prefersReducedMotion()) return;
-    const { gsap, ScrollTrigger } = ensureGsap();
-    const digits = el.querySelectorAll<HTMLElement>("[data-odometer-digit]");
-    if (!digits.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top 95%",
-        once: true,
-        onEnter: () => {
-          gsap.from(digits, {
-            yPercent: -110,
-            opacity: 0,
-            duration: 0.5,
-            ease: "power3.out",
-            stagger: 0.035,
-          });
-        },
-      });
-    }, el);
+    el.style.opacity = "0";
+    el.style.transform = "translateY(10px)";
+    el.style.transition = "opacity 0.35s ease-out, transform 0.35s ease-out";
 
-    return () => ctx.revert();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0]?.isIntersecting) return;
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+        observer.disconnect();
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -20px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [value]);
 
   return (
     <span ref={ref} className={cn("inline-flex items-baseline", className)}>
-      {value.split("").map((ch, i) => {
-        const isDigit = /\d/.test(ch);
-        if (!isDigit) {
-          return (
-            <span key={i} className="inline-block">
-              {ch}
-            </span>
-          );
-        }
-        return (
-          <span
-            key={i}
-            className="inline-block overflow-hidden align-baseline"
-            style={{ height: "1em", lineHeight: 1 }}
-          >
-            <span
-              data-odometer-digit
-              className={cn("inline-block", digitClassName)}
-              style={{ willChange: "transform" }}
-            >
-              {ch}
-            </span>
-          </span>
-        );
-      })}
+      {value}
     </span>
   );
 }

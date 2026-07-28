@@ -1,5 +1,5 @@
 /**
- * Ambient animated backdrop — drifting color blobs + subtle grid behind all content.
+ * Ambient static backdrop — color blobs + subtle grid behind all content.
  * Sits fixed at z=-10 so glassmorphic surfaces above it pick up the colour.
  */
 export function AmbientBackdrop() {
@@ -32,32 +32,23 @@ export function AmbientBackdrop() {
       />
       {/* peach glow top-left */}
       <div
-        className="ambient-blob absolute -top-44 -left-36 h-[48vw] w-[48vw] rounded-full blur-3xl animate-drift"
+        className="ambient-blob absolute -top-44 -left-36 h-[48vw] w-[48vw] rounded-full blur-3xl"
         style={{ background: "radial-gradient(circle, rgba(255, 138, 76, 0.32), transparent 65%)" }}
       />
       {/* warm peach top-right */}
       <div
-        className="ambient-blob absolute -top-24 -right-32 h-[44vw] w-[44vw] rounded-full blur-3xl animate-drift"
-        style={{
-          background: "radial-gradient(circle, rgba(255, 176, 136, 0.22), transparent 68%)",
-          animationDelay: "-6s",
-        }}
+        className="ambient-blob absolute -top-24 -right-32 h-[44vw] w-[44vw] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(255, 176, 136, 0.22), transparent 68%)" }}
       />
       {/* indigo depth bottom */}
       <div
-        className="ambient-blob absolute -bottom-56 left-1/4 h-[52vw] w-[52vw] rounded-full blur-3xl animate-drift"
-        style={{
-          background: "radial-gradient(circle, rgba(79, 70, 229, 0.28), transparent 68%)",
-          animationDelay: "-12s",
-        }}
+        className="ambient-blob absolute -bottom-56 left-1/4 h-[52vw] w-[52vw] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(79, 70, 229, 0.28), transparent 68%)" }}
       />
       {/* deep violet bottom-right for richness */}
       <div
-        className="ambient-blob absolute bottom-10 -right-40 h-[40vw] w-[40vw] rounded-full blur-3xl animate-drift"
-        style={{
-          background: "radial-gradient(circle, rgba(168, 85, 247, 0.18), transparent 70%)",
-          animationDelay: "-18s",
-        }}
+        className="ambient-blob absolute bottom-10 -right-40 h-[40vw] w-[40vw] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(168, 85, 247, 0.18), transparent 70%)" }}
       />
       {/* vignette */}
       <div

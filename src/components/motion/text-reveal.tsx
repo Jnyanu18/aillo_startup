@@ -1,51 +1,34 @@
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.035, delayChildren: 0.02 } },
-};
-const word: Variants = {
-  hidden: { opacity: 0, y: "0.3em", filter: "blur(4px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
+/**
+ * Same "slide once on scroll" treatment as Reveal, for inline text runs.
+ */
 export function TextReveal({
   children,
   as: As = "span",
   className,
 }: {
-  children: string;
+  children: ReactNode;
   as?: keyof React.JSX.IntrinsicElements;
   className?: string;
 }) {
-  const words = children.split(" ");
+  const reduce = useReducedMotion();
+  const Tag = As as any;
+  if (reduce) {
+    return <Tag className={cn("inline-block", className)}>{children}</Tag>;
+  }
   const MotionTag = motion(As as any);
   return (
     <MotionTag
-      className="inline-block"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-10%", amount: 0.2 }}
-      variants={container}
+      className={cn("inline-block", className)}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px", amount: 0.2 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
     >
-      {words.map((w, i) => (
-        <span
-          key={i}
-          className="inline-block overflow-hidden align-bottom pb-[0.2em] -mb-[0.2em] leading-[1.15]"
-        >
-          <motion.span className={cn("inline-block", className)} variants={word}>
-            {w}
-            {i < words.length - 1 ? "\u00A0" : ""}
-          </motion.span>
-        </span>
-      ))}
+      {children}
     </MotionTag>
   );
 }
