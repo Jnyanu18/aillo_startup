@@ -1,15 +1,16 @@
 import { useEffect, useRef, type ReactNode } from "react";
-import { ensureGsap, prefersReducedMotion } from "@/lib/motion/gsap";
 import { cn } from "@/lib/utils";
 
 /**
- * Wraps a grid container. On first enter, its direct children settle in with
- * a subtle 3D tilt + lift, staggered. No fade-up-on-every-section feel.
+ * Wraps a grid container. On first enter, its direct children fade + slide
+ * up once, staggered slightly. Operates on the mounted DOM children directly
+ * (no wrapper elements) so it doesn't disturb the container's grid/flex
+ * layout, whatever it is.
  */
 export function TiltGrid({
   children,
   className,
-  stagger = 0.035,
+  stagger = 0.05,
   as: As = "div",
 }: {
   children: ReactNode;
@@ -22,42 +23,35 @@ export function TiltGrid({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (prefersReducedMotion()) return;
-    const { gsap, ScrollTrigger } = ensureGsap();
     const items = Array.from(el.children) as HTMLElement[];
     if (!items.length) return;
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top 90%",
-        once: true,
-        onEnter: () => {
-          gsap.fromTo(
-            items,
-            { opacity: 0, y: 14, rotateX: -6 },
-            {
-              opacity: 1,
-              y: 0,
-              rotateX: 0,
-              transformPerspective: 1000,
-              transformOrigin: "50% 100%",
-              duration: 0.45,
-              ease: "power3.out",
-              stagger,
-              clearProps: "opacity,transform",
-            },
-          );
-        },
-      });
-    }, el);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    return () => ctx.revert();
+    items.forEach((item, i) => {
+      item.style.opacity = "0";
+      item.style.transform = "translateY(14px)";
+      item.style.transition = `opacity 0.35s ease-out ${i * stagger}s, transform 0.35s ease-out ${i * stagger}s`;
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0]?.isIntersecting) return;
+        items.forEach((item) => {
+          item.style.opacity = "1";
+          item.style.transform = "translateY(0)";
+        });
+        observer.disconnect();
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [stagger]);
 
   const Tag = As as any;
   return (
-    <Tag ref={ref} className={cn(className)} style={{ perspective: 1200 }}>
+    <Tag ref={ref} className={cn(className)}>
       {children}
     </Tag>
   );

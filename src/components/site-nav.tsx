@@ -3,7 +3,6 @@ import { Menu, X } from "lucide-react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Magnetic } from "@/components/motion/magnetic";
 
 
 const navLinks = [
@@ -31,7 +30,10 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
   const activeHref = pathname === "/" ? (hashActive ? "/#why" : "") : pathname;
 
   useEffect(() => {
-    const onScroll = () => {
+    let ticking = false;
+
+    const compute = () => {
+      ticking = false;
       const y = window.scrollY;
       if (pathname === "/") {
         const el = document.getElementById("why");
@@ -48,7 +50,17 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
       }
       lastY.current = y;
     };
-    onScroll();
+
+    // Reading el.offsetTop forces a synchronous layout recalc, so it must be
+    // capped to once per animation frame rather than run on every raw scroll
+    // event -- native "scroll" fires far more often than 60fps on touch
+    // devices, and doing this work uncapped is a direct cause of scroll jank.
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(compute);
+    };
+    compute();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
@@ -90,18 +102,16 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
         {/* Controls */}
         <div className="hidden items-center gap-2 md:flex">
           <ThemeToggle />
-          <Magnetic strength={0.3}>
-            <button
-              onClick={onCtaClick}
-              className="rounded-lg px-4 py-1.5 text-xs font-bold text-white shadow-lg transition-transform duration-200 hover:scale-[1.02] active:scale-95"
-              style={{
-                background: "linear-gradient(90deg, #ffd4b8, #ff8a4c, #ffb088)",
-                boxShadow: "0 10px 25px -10px rgba(255, 138, 76, 0.5)",
-              }}
-            >
-              Book a consultation
-            </button>
-          </Magnetic>
+          <button
+            onClick={onCtaClick}
+            className="rounded-lg px-4 py-1.5 text-xs font-bold text-white shadow-lg transition-transform duration-200 hover:scale-[1.02] active:scale-95"
+            style={{
+              background: "linear-gradient(90deg, #ffd4b8, #ff8a4c, #ffb088)",
+              boxShadow: "0 10px 25px -10px rgba(255, 138, 76, 0.5)",
+            }}
+          >
+            Book a consultation
+          </button>
         </div>
 
 

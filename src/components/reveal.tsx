@@ -4,18 +4,18 @@ import { cn } from "@/lib/utils";
 
 type From = "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center";
 
-const OFFSETS: Record<From, { x: number; y: number; scale?: number }> = {
-  bottom: { x: 0, y: 24 },
-  "top-left": { x: -28, y: -18 },
-  "top-right": { x: 28, y: -18 },
-  "bottom-left": { x: -28, y: 22 },
-  "bottom-right": { x: 28, y: 22 },
-  center: { x: 0, y: 0, scale: 0.96 },
+const OFFSETS: Record<From, { x: number; y: number }> = {
+  bottom: { x: 0, y: 18 },
+  "top-left": { x: -18, y: 0 },
+  "top-right": { x: 18, y: 0 },
+  "bottom-left": { x: -18, y: 18 },
+  "bottom-right": { x: 18, y: 18 },
+  center: { x: 0, y: 0 },
 };
 
 /**
- * Scroll-triggered organic entrance using spring physics.
- * Cards glide in from staggered angles with a weighted soft-bounce.
+ * The site's single scroll-reveal effect: a short fade + slide that plays
+ * once when the element enters the viewport.
  */
 export function Reveal({
   children,
@@ -36,18 +36,10 @@ export function Reveal({
   return (
     <motion.div
       className={cn(className)}
-      style={{ willChange: "transform, opacity" }}
-      initial={{ opacity: 0, x: o.x, y: o.y, scale: o.scale ?? 0.98 }}
-      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+      initial={{ opacity: 0, x: o.x, y: o.y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "-40px", amount: 0.1 }}
-      transition={{
-        type: "spring",
-        stiffness: 260,
-        damping: 26,
-        mass: 0.9,
-        delay,
-        opacity: { duration: 0.3, delay, ease: [0.22, 1, 0.36, 1] },
-      }}
+      transition={{ duration: 0.35, delay, ease: "easeOut" }}
     >
       {children}
     </motion.div>

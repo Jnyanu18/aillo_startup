@@ -167,22 +167,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 36px 70px -25px rgba(124, 58, 237, 0.45);
 }
-/* Continuous ambient float — staggered so cards never move in unison */
-@keyframes float-y {
-  0%, 100% { translate: 0 -4px; }
-  50%      { translate: 0  4px; }
-}
-.glass-card {
-  animation: float-y 5.5s ease-in-out infinite;
-  animation-delay: var(--float-delay, 0s);
-}
-.glass-card:hover { animation-play-state: paused; }
-.glass-card:nth-child(3n)   { --float-delay: -1.2s; animation-duration: 6.2s; }
-.glass-card:nth-child(3n+1) { --float-delay: -2.7s; animation-duration: 4.8s; }
-.glass-card:nth-child(3n+2) { --float-delay: -3.9s; animation-duration: 5.8s; }
-@media (prefers-reduced-motion: reduce) {
-  .glass-card { animation: none; }
-}
 /* Animated gradient border */
 .glass-card::before {
   content: "";
@@ -267,45 +251,21 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
   filter: blur(52px);
 }
 
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.32; }
-  50% { opacity: 0.52; }
-}
-@utility animate-glow-pulse {
-  animation: glow-pulse 5s ease-in-out infinite;
-}
-
-@keyframes drift {
-  0%   { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  25%  { transform: translate3d(60px, -40px, 0) scale(1.08) rotate(4deg); }
-  50%  { transform: translate3d(20px, 50px, 0) scale(0.96) rotate(-3deg); }
-  75%  { transform: translate3d(-50px, 10px, 0) scale(1.05) rotate(2deg); }
-  100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-}
-@utility animate-drift {
-  animation: drift 28s ease-in-out infinite;
-}
-
-/* Ambient backdrop blobs are decorative — on mobile, the continuous
-   translate+scale animation forces the browser to re-rasterize a large
-   blurred layer every frame, which is expensive on weaker GPUs. Freeze
-   them static and halve the blur radius there; desktop is unaffected. */
+/* Ambient backdrop blobs are decorative and no longer animate (see
+   ambient-backdrop.tsx); on mobile also halve the blur radius since a
+   large blurred layer is expensive to rasterize on weaker GPUs. */
 @media (max-width: 768px) {
   .ambient-blob {
-    animation: none !important;
     filter: blur(32px);
   }
 
   /* .glass-card and the fixed nav both use a live backdrop-filter blur,
      which forces the browser to resample everything behind them on
      every scroll frame — one of the most expensive things a mobile GPU
-     can be asked to do while scrolling. .glass-card also runs a
-     continuous float animation regardless of scroll or visibility.
-     Drop both on mobile in favor of a solid approximation; desktop
-     keeps the full glassmorphism untouched. */
+     can be asked to do while scrolling. Drop it on mobile in favor of a
+     solid approximation; desktop keeps the full glassmorphism untouched. */
   .glass-card,
   .glass-card:hover {
-    animation: none !important;
     backdrop-filter: none !important;
     background: rgba(20, 20, 28, 0.72) !important;
   }
@@ -333,13 +293,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
 }
 
 
-@keyframes shimmer-bar {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(400%); }
-}
-@utility animate-shimmer-bar {
-  animation: shimmer-bar 3s ease-in-out infinite;
-}
 
 @keyframes draw-line {
   from { transform: scaleY(0); }

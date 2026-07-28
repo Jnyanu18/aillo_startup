@@ -1,31 +1,11 @@
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
-const fromLeft: Variants = {
-  hidden: { opacity: 0, x: -48 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-const fromRight: Variants = {
-  hidden: { opacity: 0, x: 48 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-const fromBottom: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
+/**
+ * Thin alias over the same "slide once on scroll" treatment as Reveal,
+ * kept as a separate component only so call sites can say "left"/"right".
+ */
 export function SlideIn({
   children,
   from = "left",
@@ -37,16 +17,19 @@ export function SlideIn({
   delay?: number;
   className?: string;
 }) {
-  const variants =
-    from === "left" ? fromLeft : from === "right" ? fromRight : fromBottom;
+  const reduce = useReducedMotion();
+  if (reduce) {
+    return <div className={cn(className)}>{children}</div>;
+  }
+  const x = from === "left" ? -18 : from === "right" ? 18 : 0;
+  const y = from === "bottom" ? 18 : 0;
   return (
     <motion.div
       className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px", amount: 0.15 }}
-      variants={variants}
-      transition={{ delay }}
+      initial={{ opacity: 0, x, y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, margin: "-40px", amount: 0.1 }}
+      transition={{ duration: 0.35, delay, ease: "easeOut" }}
     >
       {children}
     </motion.div>

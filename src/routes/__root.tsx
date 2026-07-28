@@ -12,8 +12,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AmbientBackdrop } from "@/components/ambient-backdrop";
-import { MouseSpotlight } from "@/components/motion/mouse-spotlight";
-import { GlassFx } from "@/components/motion/glass-fx";
 import { SOCIAL_LINKS } from "@/lib/site-config";
 
 
@@ -162,8 +160,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AmbientBackdrop />
-      <MouseSpotlight />
-      <GlassFx />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>

@@ -12,7 +12,6 @@ import { AnimatedGlyph } from "@/components/explainers/animated-glyph";
 import { CountUp } from "@/components/explainers/count-up";
 import { TiltGrid } from "@/components/motion/tilt-grid";
 import { HeroIntro } from "@/components/motion/hero-intro";
-import { Magnetic } from "@/components/motion/magnetic";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -60,18 +59,18 @@ function Hero({ onCta }: { onCta: () => void }) {
       {/* Indigo beam */}
       <div
         aria-hidden
-        className="beam-light pointer-events-none absolute -top-40 right-[-18%] h-[760px] w-[920px] animate-glow-pulse"
+        className="beam-light pointer-events-none absolute -top-40 right-[-18%] h-[760px] w-[920px]"
       />
-      {/* Drifting aurora blobs */}
+      {/* Aurora blobs */}
       <div
         aria-hidden
-        className="animate-drift pointer-events-none absolute -left-44 top-44 h-[420px] w-[420px] rounded-full opacity-25 blur-3xl"
+        className="pointer-events-none absolute -left-44 top-44 h-[420px] w-[420px] rounded-full opacity-25 blur-3xl"
         style={{ background: "radial-gradient(circle, rgba(255,138,76,0.20) 0%, transparent 72%)" }}
       />
       <div
         aria-hidden
-        className="animate-drift pointer-events-none absolute right-8 top-[58%] h-[360px] w-[360px] rounded-full opacity-20 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(255,176,136,0.18) 0%, transparent 72%)", animationDelay: "-6s" }}
+        className="pointer-events-none absolute right-8 top-[58%] h-[360px] w-[360px] rounded-full opacity-20 blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(255,176,136,0.18) 0%, transparent 72%)" }}
       />
 
       <Container className="relative">
@@ -96,12 +95,10 @@ function Hero({ onCta }: { onCta: () => void }) {
         </HeroIntro>
         <HeroIntro delay={0.4}>
           <div className="mt-5 flex flex-wrap items-center gap-4">
-            <Magnetic>
-              <Button variant="primary" size="lg" onClick={onCta}>
-                Book a free consultation
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Magnetic>
+            <Button variant="primary" size="lg" onClick={onCta}>
+              Book a free consultation
+              <ArrowRight className="h-4 w-4" />
+            </Button>
             <a
               href="/work"
               className="text-sm font-medium text-white/70 underline-offset-4 transition hover:text-white hover:underline"
@@ -136,7 +133,7 @@ function Hero({ onCta }: { onCta: () => void }) {
                 aria-hidden
                 className="pointer-events-none absolute inset-x-8 bottom-3 h-[2px] overflow-hidden rounded-full bg-white/5"
               >
-                <div className="animate-shimmer-bar h-full w-1/4 bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
+                <div className="h-full w-full bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
               </div>
             </div>
           </div>
