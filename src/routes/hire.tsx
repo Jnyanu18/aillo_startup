@@ -117,10 +117,14 @@ function HirePage() {
               </p>
             </Reveal>
             <TiltGrid className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map((it, i) => (
-                <Reveal key={it.title} delay={i * 0.04}>
-                  <ExplainerCard icon={it.icon} title={it.title} blurb={it.blurb} visual={<it.Visual />} />
-                </Reveal>
+              {items.map((it) => (
+                <ExplainerCard
+                  key={it.title}
+                  icon={it.icon}
+                  title={it.title}
+                  blurb={it.blurb}
+                  visual={<it.Visual />}
+                />
               ))}
             </TiltGrid>
             <Reveal delay={0.2}>
