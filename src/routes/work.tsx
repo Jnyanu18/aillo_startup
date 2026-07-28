@@ -70,21 +70,19 @@ function WorkPage() {
               Real outcomes from <GradientText>real partnerships.</GradientText>
             </h1>
             <TiltGrid className="mt-8 grid gap-5 md:grid-cols-3">
-              {stories.map((s, i) => (
-                <Reveal key={s.id} delay={i * 0.05}>
-                  <div className="flex h-full flex-col glass-card rounded-xl p-8">
-                    <div className="text-gradient font-display text-5xl font-bold tracking-tight">
-                      {s.stat}
-                    </div>
-                    <p className="mt-4 text-sm text-muted-foreground">{s.description}</p>
-                    <div className="mt-6 border-t border-border pt-5 text-sm">
-                      <p className="text-foreground">"{s.quote}"</p>
-                      <p className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">
-                        — {s.attribution}
-                      </p>
-                    </div>
+              {stories.map((s) => (
+                <div key={s.id} className="flex h-full flex-col glass-card rounded-xl p-8">
+                  <div className="text-gradient font-display text-5xl font-bold tracking-tight">
+                    {s.stat}
                   </div>
-                </Reveal>
+                  <p className="mt-4 text-sm text-muted-foreground">{s.description}</p>
+                  <div className="mt-6 border-t border-border pt-5 text-sm">
+                    <p className="text-foreground">"{s.quote}"</p>
+                    <p className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">
+                      — {s.attribution}
+                    </p>
+                  </div>
+                </div>
               ))}
             </TiltGrid>
             <Reveal delay={0.2}>

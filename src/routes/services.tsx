@@ -121,18 +121,17 @@ function AgencyServices() {
       </Reveal>
 
       <TiltGrid className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((it, i) => (
-          <Reveal key={it.title} delay={i * 0.04}>
-            <div className="group relative flex h-full flex-col glass-card rounded-xl p-6 transition-colors duration-300 hover:bg-surface">
-              <div className="text-foreground/80">
-                <AnimatedGlyph animation={it.anim}>{it.icon}</AnimatedGlyph>
-              </div>
-              <h3 className="font-display mt-4 text-lg font-semibold text-foreground">
-                {it.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{it.blurb}</p>
+        {items.map((it) => (
+          <div
+            key={it.title}
+            className="group relative flex h-full flex-col glass-card rounded-xl p-6 transition-colors duration-300 hover:bg-surface"
+          >
+            <div className="text-foreground/80">
+              <AnimatedGlyph animation={it.anim}>{it.icon}</AnimatedGlyph>
             </div>
-          </Reveal>
+            <h3 className="font-display mt-4 text-lg font-semibold text-foreground">{it.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{it.blurb}</p>
+          </div>
         ))}
       </TiltGrid>
 
@@ -267,10 +266,8 @@ function BuildEngineering() {
           { title: "Server Management", icon: <Server className="h-5 w-5" /> },
           { title: "CI/CD Setup", icon: <GitBranch className="h-5 w-5" /> },
           { title: "Security & Support", icon: <Lock className="h-5 w-5" /> },
-        ].map((it, i) => (
-          <Reveal key={it.title} delay={i * 0.04}>
-            <FeatureCard icon={it.icon} title={it.title} />
-          </Reveal>
+        ].map((it) => (
+          <FeatureCard key={it.title} icon={it.icon} title={it.title} />
         ))}
       </TiltGrid>
     </SectionShell>

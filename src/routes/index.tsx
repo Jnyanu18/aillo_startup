@@ -318,10 +318,8 @@ function WhoWeAre() {
       </div>
 
       <TiltGrid className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {pillars.map((p, i) => (
-          <Reveal key={p.title} delay={i * 0.05}>
-            <FeatureCard icon={p.icon} title={p.title} description={p.description} />
-          </Reveal>
+        {pillars.map((p) => (
+          <FeatureCard key={p.title} icon={p.icon} title={p.title} description={p.description} />
         ))}
       </TiltGrid>
     </SectionShell>
@@ -358,36 +356,28 @@ function DashboardSection() {
       </Reveal>
 
       <TiltGrid className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Reveal>
-          <ImpactTile
-            label="Clients served"
-            value={<><CountUp to={IMPACT_METRICS.clientsServed} />+</>}
-            sub="across e-commerce, B2B & ops"
-            gradient
-          />
-        </Reveal>
-        <Reveal delay={0.05}>
-          <ImpactTile
-            label="Successful deployments"
-            value={<><CountUp to={IMPACT_METRICS.successRate} />%</>}
-            sub="shipped on time, on scope"
-          />
-        </Reveal>
-        <Reveal delay={0.1}>
-          <ImpactTile
-            label="Hours saved / client / yr"
-            value={<><CountUp to={IMPACT_METRICS.hoursSavedAnnual} /></>}
-            sub="manual work removed by AI"
-            gradient
-          />
-        </Reveal>
-        <Reveal delay={0.15}>
-          <ImpactTile
-            label="Avg. cost saved / yr"
-            value={<>$<CountUp to={IMPACT_METRICS.costSavedAnnual} />K</>}
-            sub="operational spend reduction"
-          />
-        </Reveal>
+        <ImpactTile
+          label="Clients served"
+          value={<><CountUp to={IMPACT_METRICS.clientsServed} />+</>}
+          sub="across e-commerce, B2B & ops"
+          gradient
+        />
+        <ImpactTile
+          label="Successful deployments"
+          value={<><CountUp to={IMPACT_METRICS.successRate} />%</>}
+          sub="shipped on time, on scope"
+        />
+        <ImpactTile
+          label="Hours saved / client / yr"
+          value={<><CountUp to={IMPACT_METRICS.hoursSavedAnnual} /></>}
+          sub="manual work removed by AI"
+          gradient
+        />
+        <ImpactTile
+          label="Avg. cost saved / yr"
+          value={<>$<CountUp to={IMPACT_METRICS.costSavedAnnual} />K</>}
+          sub="operational spend reduction"
+        />
       </TiltGrid>
 
       <Reveal delay={0.2}>
@@ -493,15 +483,13 @@ function WhyAilo() {
         </h2>
       </Reveal>
       <TiltGrid className="mt-8 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-        {pillars.map((p, i) => (
-          <Reveal key={p.n} delay={i * 0.05}>
-            <div className="flex h-full flex-col justify-between bg-surface p-8">
-              <div className="text-gradient font-display text-3xl font-bold">{p.n}</div>
-              <div className="font-display mt-12 text-xl font-semibold text-foreground">
-                {p.title}
-              </div>
+        {pillars.map((p) => (
+          <div key={p.n} className="flex h-full flex-col justify-between bg-surface p-8">
+            <div className="text-gradient font-display text-3xl font-bold">{p.n}</div>
+            <div className="font-display mt-12 text-xl font-semibold text-foreground">
+              {p.title}
             </div>
-          </Reveal>
+          </div>
         ))}
       </TiltGrid>
     </SectionShell>
