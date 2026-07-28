@@ -2,34 +2,34 @@
 
 Marketing site + lead capture + admin dashboard for **AILO**, an AI & technology consulting agency for SMEs.
 
-Built on **Lovable's stack**: TanStack Start (React 19 + Vite) on the front, Lovable Cloud (Postgres + auth + serverless functions) on the back, Lovable Emails for transactional mail.
+Built with **TanStack Start** (React 19 + Vite) on the front, **Supabase** (Postgres + auth) on the back, and direct SMTP (via the domain's own mailbox) for lead notification emails.
 
 ## What's inside
 
 - **`/`** — single-page dark marketing site with all 9 numbered consulting-deck sections.
 - **`/style-guide`** — every design token, primitive, and chrome element in isolation.
 - **`/auth`** — admin sign-in (no public sign-up).
-- **`/admin`** — admin home, with links to:
-  - **`/admin/leads`** — sortable/filterable table of consultation requests, with "mark as contacted" toggle.
-  - **`/admin/testimonials`** — CRUD over the homepage success stories (Section 08).
+- **`/admin`** — admin home, with a link to:
+  - **`/admin/testimonials`** — CRUD over the homepage success stories.
 - **`/sitemap.xml`** + **`/robots.txt`** — basic SEO.
 
 ## Data
 
-Three Postgres tables (managed via Lovable Cloud migrations):
+Two Postgres tables (managed via Supabase migrations in `supabase/migrations/`):
 
-- `leads` — public INSERT, admin-only SELECT/UPDATE/DELETE.
 - `testimonials` — public SELECT for published rows; admin-only writes.
 - `user_roles` + `app_role` enum + `has_role()` security-definer fn — admin gate.
 
 RLS is on for every table; grants and policies live in the migrations.
 
+Note: consultation requests from the lead form aren't stored in the database today — `submitLead` (`src/lib/leads.functions.ts`) only sends a notification email. There's a `leads` table in the migrations that isn't currently written to; add the insert back in `submitLead` if you want a durable record beyond your inbox.
+
 ## Creating the first admin
 
-Lovable Cloud manages auth — there is no public sign-up.
+There's no public sign-up.
 
-1. Open **Cloud → Users** in the Lovable editor and create a user with email + password.
-2. Run this SQL in **Cloud → Database**:
+1. Create a user with email + password in the Supabase dashboard (Authentication → Users).
+2. Run this SQL against the database (SQL Editor, or `supabase db` locally):
 
    ```sql
    INSERT INTO public.user_roles (user_id, role)
@@ -45,20 +45,17 @@ bun install
 bun dev          # → http://localhost:8080
 ```
 
-Environment variables (auto-managed by Lovable Cloud — never commit secrets):
+Environment variables (never commit secrets — see `.env.example`):
 
 - `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` (browser)
 - `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (server only)
+- `MAIL_USER`, `MAIL_PASSWORD`, `MAIL_SMTP_HOST`, `MAIL_SMTP_PORT`, `LEAD_NOTIFY_TO` (lead notification email, sent directly via the mailbox's own SMTP)
 
 ## Deploy
 
-Use the **Publish** button in the Lovable editor. Frontend changes require an explicit publish; backend changes (migrations, server functions) deploy automatically.
+`vite build` runs Nitro with the `cloudflare-module` preset by default (see `vite.config.ts`). A Vercel project is also linked (`.vercel/`) — confirm which platform is actually serving production before assuming either is authoritative, and update this section once that's settled.
 
 ## To-do before launch
 
-The brochure copy ships with **placeholders** that need to be swapped:
-
+- ☐ Decide whether consultation requests should also be persisted to the `leads` table (see the note under **Data** above), not just emailed.
 - ☐ Replace the seeded testimonials in `/admin/testimonials` with real client outcomes.
-- ☐ Update the phone number in `src/components/site-footer.tsx` and the final CTA in `src/routes/index.tsx`.
-- ☐ Set up an email domain (Lovable Emails) so lead notification + confirmation emails actually send. Today, the lead is saved to the DB and a `// TODO` is left in `submitLead` — wire `sendTransactionalEmail` once the domain is verified.
-- ☐ If you have a real AILO logo asset, swap the wordmark in `src/components/site-nav.tsx` and `src/components/site-footer.tsx`.
