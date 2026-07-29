@@ -278,6 +278,182 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
   filter: blur(52px);
 }
 
+/* ---- AnimatedGlyph: tasteful, slow, looping icon motion -------------- */
+@keyframes glyph-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes glyph-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.85; }
+}
+@keyframes glyph-tick {
+  to { transform: rotate(360deg); }
+}
+@keyframes glyph-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes glyph-shimmer {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes glyph-scan {
+  0%, 100% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+}
+.glyph-spin { animation: glyph-spin 18s linear infinite; }
+.glyph-pulse { animation: glyph-pulse 2.4s ease-in-out infinite; }
+.glyph-tick { animation: glyph-tick 8s steps(16, end) infinite; }
+.glyph-bob { animation: glyph-bob 2.2s ease-in-out infinite; }
+.glyph-shimmer { animation: glyph-shimmer 2.6s ease-in-out infinite; }
+.glyph-scan { animation: glyph-scan 2.4s ease-in-out infinite; }
+
+/* ---- StackDiagram: pulse travels up the operating-layer stack -------- */
+@keyframes stack-sweep {
+  0% { transform: translateX(-100%); }
+  70% { transform: translateX(420%); }
+  100% { transform: translateX(420%); }
+}
+.stack-sweep {
+  animation: stack-sweep 5s ease-in-out infinite;
+}
+
+/* ---- solution-explainers.tsx: 7 compact animated diagrams ------------ */
+/* AutomationExplainer */
+@keyframes exp-node-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+@keyframes exp-travel {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+.exp-node-pulse { animation: exp-node-pulse 2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.exp-travel { animation: exp-travel 1.8s ease-in-out infinite; }
+
+/* ChatbotExplainer: fade+slide in, hold, fade out, then a pause before
+   the next loop -- 3.6s cycle = 3.2s active (framer's old duration) +
+   0.4s pause (its old repeatDelay), with the active-phase percentages
+   (0, 0.15, 0.85, 1) rescaled into that combined cycle. */
+@keyframes exp-chat-line {
+  0% { opacity: 0; transform: translateX(var(--x-start, 0)); }
+  13.3% { opacity: 1; transform: translateX(0); }
+  75.6% { opacity: 1; transform: translateX(0); }
+  88.9%, 100% { opacity: 0; transform: translateX(0); }
+}
+.exp-chat-line { animation: exp-chat-line 3.6s ease-in-out infinite; }
+
+/* SupportExplainer: 3D card flip, hold on each face */
+@keyframes exp-flip {
+  0%, 40% { transform: rotateY(0deg); }
+  50%, 90% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+.exp-flip { animation: exp-flip 4.5s ease-in-out infinite; }
+
+/* IntegrationsExplainer: chips slide in from either side, hold, pause.
+   3.8s cycle = 2.4s active + 1.4s pause. */
+@keyframes exp-chip-in {
+  0% { opacity: 0; transform: translateX(var(--x-start, 0)); }
+  25.3% { opacity: 1; transform: translateX(0); }
+  63.2%, 100% { opacity: 1; transform: translateX(0); }
+}
+.exp-chip-in { animation: exp-chip-in 3.8s ease-in-out infinite; }
+
+/* WorkflowExplainer: step border pulse + traveling dot on the connectors */
+@keyframes exp-rect-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+@keyframes exp-dot-travel {
+  from { transform: translateX(0); }
+  to { transform: translateX(42px); }
+}
+.exp-rect-pulse { animation: exp-rect-pulse 2.4s ease-in-out infinite; }
+.exp-dot-travel { animation: exp-dot-travel 1.4s ease-in-out infinite; }
+
+/* AssistantsExplainer: tile background pulse, hold, pause.
+   3.4s cycle = 2.4s active + 1s pause. */
+@keyframes exp-tile-pulse {
+  0%, 100% { background-color: rgba(17,22,42,0.6); }
+  35.3% { background-color: rgba(168,85,247,0.35); }
+  70.6% { background-color: rgba(17,22,42,0.6); }
+}
+.exp-tile-pulse { animation: exp-tile-pulse 3.4s ease-in-out infinite; }
+
+/* GenerativeExplainer: text-generation bar grow/shrink */
+@keyframes exp-bar-grow {
+  0%, 100% { transform: scaleX(0); }
+  40%, 85% { transform: scaleX(1); }
+}
+.exp-bar-grow { animation: exp-bar-grow 4s ease-in-out infinite; transform-origin: left; }
+
+/* ---- training-explainers.tsx: 5 compact animated diagrams ------------ */
+/* FundamentalsExplainer: edges draw in + fade, nodes pulse.
+   3.4s cycle = 1.8s active + 1.6s pause, using the pathLength=1 SVG
+   attribute so stroke-dasharray/dashoffset draw the line regardless of
+   its actual geometry. */
+@keyframes exp-edge-draw {
+  0% { stroke-dashoffset: 1; opacity: 0.2; }
+  52.9% { stroke-dashoffset: 0; opacity: 0.6; }
+  100% { stroke-dashoffset: 0; opacity: 0.6; }
+}
+@keyframes exp-node-blink {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.exp-edge-draw { stroke-dasharray: 1; animation: exp-edge-draw 3.4s ease-in-out infinite; }
+.exp-node-blink { animation: exp-node-blink 2.4s ease-in-out infinite; }
+
+/* PromptExplainer: prompt bar grows + holds, arrow bobs, output bar
+   grows in later then holds. Both bars use a 3.5s cycle (no pause). */
+@keyframes exp-bar-grow-hold {
+  0% { transform: scaleX(0); }
+  35%, 100% { transform: scaleX(1); }
+}
+@keyframes exp-bar-grow-late {
+  0%, 50% { transform: scaleX(0); }
+  85%, 100% { transform: scaleX(1); }
+}
+@keyframes exp-arrow-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
+}
+.exp-bar-grow-hold { animation: exp-bar-grow-hold 3.5s ease-in-out infinite; transform-origin: left; }
+.exp-bar-grow-late { animation: exp-bar-grow-late 3.5s ease-in-out infinite; transform-origin: left; }
+.exp-arrow-bob { animation: exp-arrow-bob 1.4s ease-in-out infinite; }
+
+/* LeadersExplainer: growth line draws in, a dot travels along it.
+   4s cycle = 2.4s active + 1.6s pause. */
+@keyframes exp-path-draw {
+  0% { stroke-dashoffset: 1; }
+  60%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes exp-dot-path-travel {
+  0% { offset-distance: 0%; }
+  60%, 100% { offset-distance: 100%; }
+}
+.exp-path-draw { stroke-dasharray: 1; animation: exp-path-draw 4s ease-in-out infinite; }
+.exp-dot-path-travel { animation: exp-dot-path-travel 4s ease-in-out infinite; }
+
+/* RolesExplainer: tile background + text color pulse.
+   2.5s cycle = 1.6s active + 0.9s pause. */
+@keyframes exp-role-pulse {
+  0%, 100% { background-color: rgba(17,22,42,0.6); color: rgba(138,148,176,1); }
+  32% { background-color: rgba(79,124,255,0.35); color: rgba(244,246,251,1); }
+  64% { background-color: rgba(17,22,42,0.6); color: rgba(138,148,176,1); }
+}
+.exp-role-pulse { animation: exp-role-pulse 2.5s ease-in-out infinite; }
+
+/* ToolsExplainer: icon tiles bob + border pulse.
+   2.6s cycle = 1.6s active + 1s pause. */
+@keyframes exp-tool-bob {
+  0%, 100% { transform: translateY(0); border-color: rgba(255,255,255,0.08); }
+  30.8% { transform: translateY(-6px); border-color: rgba(168,85,247,0.7); }
+  61.5% { transform: translateY(0); border-color: rgba(255,255,255,0.08); }
+}
+.exp-tool-bob { animation: exp-tool-bob 2.6s ease-in-out infinite; }
+
 /* Ambient backdrop blobs are decorative and no longer animate (see
    ambient-backdrop.tsx); on mobile also halve the blur radius since a
    large blurred layer is expensive to rasterize on weaker GPUs. */

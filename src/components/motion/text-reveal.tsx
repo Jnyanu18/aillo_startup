@@ -1,5 +1,5 @@
-import { motion, useReducedMotion } from "framer-motion";
-import { type ReactNode } from "react";
+import type { CSSProperties, ReactNode, ElementType } from "react";
+import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
 
 /**
@@ -14,21 +14,16 @@ export function TextReveal({
   as?: keyof React.JSX.IntrinsicElements;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  const Tag = As as any;
-  if (reduce) {
-    return <Tag className={cn("inline-block", className)}>{children}</Tag>;
-  }
-  const MotionTag = motion(As as any);
+  const { ref, inView } = useInView<HTMLElement>({ margin: "-40px", amount: 0.2 });
+  const Tag = As as ElementType;
+  const style: CSSProperties = {
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translateY(0)" : "translateY(12px)",
+    transition: "opacity 0.35s ease-out, transform 0.35s ease-out",
+  };
   return (
-    <MotionTag
-      className={cn("inline-block", className)}
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px", amount: 0.2 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-    >
+    <Tag ref={ref} className={cn("inline-block", className)} style={style}>
       {children}
-    </MotionTag>
+    </Tag>
   );
 }

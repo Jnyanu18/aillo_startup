@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import type { CSSProperties, ReactNode } from "react";
+import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
 
 type From = "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center";
@@ -15,7 +15,9 @@ const OFFSETS: Record<From, { x: number; y: number }> = {
 
 /**
  * The site's single scroll-reveal effect: a short fade + slide that plays
- * once when the element enters the viewport.
+ * once when the element enters the viewport. Under prefers-reduced-motion,
+ * the global transition-duration override (styles.css) collapses this to
+ * an instant snap to the final state.
  */
 export function Reveal({
   children,
@@ -28,20 +30,16 @@ export function Reveal({
   delay?: number;
   from?: From;
 }) {
-  const reduce = useReducedMotion();
-  if (reduce) {
-    return <div className={cn(className)}>{children}</div>;
-  }
+  const { ref, inView } = useInView<HTMLDivElement>({ margin: "-40px", amount: 0.1 });
   const o = OFFSETS[from];
+  const style: CSSProperties = {
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translate(0, 0)" : `translate(${o.x}px, ${o.y}px)`,
+    transition: `opacity 0.35s ease-out ${delay}s, transform 0.35s ease-out ${delay}s`,
+  };
   return (
-    <motion.div
-      className={cn(className)}
-      initial={{ opacity: 0, x: o.x, y: o.y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-40px", amount: 0.1 }}
-      transition={{ duration: 0.35, delay, ease: "easeOut" }}
-    >
+    <div ref={ref} className={cn(className)} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }

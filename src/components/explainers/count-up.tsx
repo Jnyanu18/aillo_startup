@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useInView, useReducedMotion } from "@/lib/use-in-view";
 
 interface CountUpProps {
   to: number;
@@ -14,8 +14,7 @@ interface CountUpProps {
  * Respects prefers-reduced-motion.
  */
 export function CountUp({ to, duration = 1.6, prefix = "", suffix = "", decimals = 0 }: CountUpProps) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { ref, inView } = useInView<HTMLSpanElement>({ margin: "-80px", amount: 0.15 });
   const reduce = useReducedMotion();
   const [value, setValue] = useState(reduce ? to : 0);
 

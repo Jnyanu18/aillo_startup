@@ -1,5 +1,5 @@
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,21 +17,17 @@ export function SlideIn({
   delay?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  if (reduce) {
-    return <div className={cn(className)}>{children}</div>;
-  }
+  const { ref, inView } = useInView<HTMLDivElement>({ margin: "-40px", amount: 0.1 });
   const x = from === "left" ? -18 : from === "right" ? 18 : 0;
   const y = from === "bottom" ? 18 : 0;
+  const style: CSSProperties = {
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translate(0, 0)" : `translate(${x}px, ${y}px)`,
+    transition: `opacity 0.35s ease-out ${delay}s, transform 0.35s ease-out ${delay}s`,
+  };
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, x, y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-40px", amount: 0.1 }}
-      transition={{ duration: 0.35, delay, ease: "easeOut" }}
-    >
+    <div ref={ref} className={cn(className)} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }
