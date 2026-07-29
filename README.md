@@ -53,7 +53,9 @@ Environment variables (never commit secrets — see `.env.example`):
 
 ## Deploy
 
-`vite build` runs Nitro with the `cloudflare-module` preset by default (see `vite.config.ts`). A Vercel project is also linked (`.vercel/`) — confirm which platform is actually serving production before assuming either is authoritative, and update this section once that's settled.
+Production (`accelerationlogics.com`) is served by Vercel, project `aillo-startup`. Nitro auto-detects the Vercel build environment and switches to the `vercel` preset there; `cloudflare-module` in `vite.config.ts` is only the fallback for a self-managed Cloudflare deploy.
+
+Pushing to `main` on GitHub auto-deploys to production via Vercel's Git integration — no manual step needed.
 
 ## To-do before launch
 
