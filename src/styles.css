@@ -2,11 +2,13 @@
 @source "../src";
 @import "tw-animate-css";
 
+/* Every font-weight utility class is forced to 300 or 400 below (see
+   .font-bold/.font-semibold/.font-medium overrides) -- 500/600/700 are
+   never rendered except as raw SVG fontWeight attributes in one diagram
+   on /solutions, which falls back to the nearest loaded weight. Importing
+   only what's actually used trims real CSS payload from every page. */
 @import "@fontsource/poppins/300.css";
 @import "@fontsource/poppins/400.css";
-@import "@fontsource/poppins/500.css";
-@import "@fontsource/poppins/600.css";
-@import "@fontsource/poppins/700.css";
 
 @custom-variant dark (&:is(.dark *));
 
