@@ -10,6 +10,31 @@
 @import "@fontsource/poppins/300.css";
 @import "@fontsource/poppins/400.css";
 
+/* fontsource ships font-display: swap, which reflows text (and whatever
+   sits near it) the moment the real font arrives -- preloading it just
+   makes that swap happen sooner, it doesn't stop the shift. Redeclaring
+   the two latin weights actually rendered with `optional` here (same
+   family/weight/unicode-range, so it takes over from the imports above)
+   means the browser only swaps in Poppins if it's already cached from a
+   prior visit; otherwise it commits to the fallback for this paint with
+   no later reflow. Measured fix for the site's only real CLS regression. */
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-display: optional;
+  font-weight: 300;
+  src: url("@fontsource/poppins/files/poppins-latin-300-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-display: optional;
+  font-weight: 400;
+  src: url("@fontsource/poppins/files/poppins-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
