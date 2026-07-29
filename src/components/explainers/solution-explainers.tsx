@@ -1,18 +1,14 @@
-import { motion, useReducedMotion } from "framer-motion";
 import { MediaSlot } from "./media-slot";
 
 /**
  * 7 compact animated visuals for Section 02 — AI Solutions.
  * Each one fills a 16:9 slot and is intentionally abstract so it can be
  * swapped 1-for-1 with a video file later without layout shift.
+ * Animation is plain CSS (see the exp-* keyframes in styles.css);
+ * prefers-reduced-motion freezes it via the global override.
  */
 
-function loop(reduce: boolean) {
-  return reduce ? { repeat: 0 } : { repeat: Infinity };
-}
-
 export function AutomationExplainer() {
-  const reduce = useReducedMotion();
   return (
     <MediaSlot>
       <svg viewBox="0 0 200 112" className="h-full w-full">
@@ -31,15 +27,14 @@ export function AutomationExplainer() {
           { x: 170, y: 56, label: "Action" },
         ].map((n, i) => (
           <g key={i}>
-            <motion.circle
+            <circle
+              className="exp-node-pulse"
               cx={n.x}
               cy={n.y}
               r="7"
               fill="url(#auto-g)"
               opacity={0.9}
-              animate={reduce ? undefined : { scale: [1, 1.15, 1] }}
-              transition={{ duration: 2, delay: i * 0.3, ...loop(!!reduce), ease: "easeInOut" }}
-              style={{ transformOrigin: `${n.x}px ${n.y}px` }}
+              style={{ animationDelay: `${i * 0.3}s` }}
             />
             <text
               x={n.x}
@@ -62,21 +57,12 @@ export function AutomationExplainer() {
         ].map((d, i) => (
           <g key={i}>
             <path d={d} stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" />
-            {!reduce && (
-              <motion.circle
-                r="2.5"
-                fill="#fff"
-                initial={{ offsetDistance: "0%" }}
-                animate={{ offsetDistance: "100%" }}
-                transition={{
-                  duration: 1.8,
-                  delay: 0.4 + i * 0.25,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{ offsetPath: `path('${d}')` }}
-              />
-            )}
+            <circle
+              className="exp-travel"
+              r="2.5"
+              fill="#fff"
+              style={{ offsetPath: `path('${d}')`, animationDelay: `${0.4 + i * 0.25}s` }}
+            />
           </g>
         ))}
       </svg>
@@ -85,7 +71,6 @@ export function AutomationExplainer() {
 }
 
 export function ChatbotExplainer() {
-  const reduce = useReducedMotion();
   const lines = [
     { side: "user" as const, text: "Do you ship to EU?", delay: 0 },
     { side: "bot" as const, text: "Yes — 2-day delivery to 27 countries.", delay: 1.0 },
@@ -95,22 +80,15 @@ export function ChatbotExplainer() {
     <MediaSlot>
       <div className="absolute inset-0 flex flex-col justify-center gap-1.5 px-4">
         {lines.map((l, i) => (
-          <motion.div
+          <div
             key={i}
-            initial={{ opacity: 0, x: l.side === "user" ? 12 : -12 }}
-            animate={
-              reduce
-                ? { opacity: 1, x: 0 }
-                : { opacity: [0, 1, 1, 0], x: [l.side === "user" ? 12 : -12, 0, 0, 0] }
+            className={`exp-chat-line flex ${l.side === "user" ? "justify-end" : "justify-start"}`}
+            style={
+              {
+                "--x-start": `${l.side === "user" ? 12 : -12}px`,
+                animationDelay: `${l.delay}s`,
+              } as React.CSSProperties
             }
-            transition={{
-              duration: 3.2,
-              delay: l.delay,
-              repeat: reduce ? 0 : Infinity,
-              repeatDelay: 0.4,
-              times: [0, 0.15, 0.85, 1],
-            }}
-            className={`flex ${l.side === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
               className={`max-w-[80%] rounded-2xl px-3 py-1.5 text-[10px] leading-tight ${
@@ -121,7 +99,7 @@ export function ChatbotExplainer() {
             >
               {l.text}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </MediaSlot>
@@ -129,15 +107,10 @@ export function ChatbotExplainer() {
 }
 
 export function SupportExplainer() {
-  const reduce = useReducedMotion();
   return (
     <MediaSlot>
       <div className="absolute inset-0 grid place-items-center [perspective:600px]">
-        <motion.div
-          className="relative h-16 w-32 rounded-md border border-border bg-surface px-3 py-2 [transform-style:preserve-3d]"
-          animate={reduce ? undefined : { rotateY: [0, 0, 180, 180, 360] }}
-          transition={{ duration: 4.5, repeat: reduce ? 0 : Infinity, ease: "easeInOut", times: [0, 0.4, 0.5, 0.9, 1] }}
-        >
+        <div className="exp-flip relative h-16 w-32 rounded-md border border-border bg-surface px-3 py-2 [transform-style:preserve-3d]">
           <div className="absolute inset-0 flex flex-col justify-center gap-1 p-2 [backface-visibility:hidden]">
             <div className="text-[8px] uppercase tracking-widest text-muted-foreground">Ticket</div>
             <div className="h-1.5 w-3/4 rounded-full bg-foreground/30" />
@@ -153,14 +126,13 @@ export function SupportExplainer() {
             </div>
             <span className="text-[10px] font-semibold text-foreground">Resolved</span>
           </div>
-        </motion.div>
+        </div>
       </div>
     </MediaSlot>
   );
 }
 
 export function IntegrationsExplainer() {
-  const reduce = useReducedMotion();
   const chips = [
     { x: 25, y: 30, label: "Slack" },
     { x: 25, y: 80, label: "Gmail" },
@@ -192,19 +164,14 @@ export function IntegrationsExplainer() {
               stroke="rgba(255,255,255,0.1)"
               strokeDasharray="2 3"
             />
-            <motion.g
-              animate={
-                reduce
-                  ? undefined
-                  : { x: [c.x < 100 ? -10 : 10, 0, 0], opacity: [0, 1, 1] }
+            <g
+              className="exp-chip-in"
+              style={
+                {
+                  "--x-start": `${c.x < 100 ? -10 : 10}px`,
+                  animationDelay: `${i * 0.35}s`,
+                } as React.CSSProperties
               }
-              transition={{
-                duration: 2.4,
-                delay: i * 0.35,
-                repeat: reduce ? 0 : Infinity,
-                repeatDelay: 1.4,
-                times: [0, 0.4, 1],
-              }}
             >
               <rect
                 x={c.x - 16}
@@ -224,7 +191,7 @@ export function IntegrationsExplainer() {
               >
                 {c.label}
               </text>
-            </motion.g>
+            </g>
           </g>
         ))}
       </svg>
@@ -233,7 +200,6 @@ export function IntegrationsExplainer() {
 }
 
 export function WorkflowExplainer() {
-  const reduce = useReducedMotion();
   return (
     <MediaSlot>
       <svg viewBox="0 0 200 112" className="h-full w-full">
@@ -252,7 +218,8 @@ export function WorkflowExplainer() {
               fill="rgba(255,255,255,0.06)"
               stroke="rgba(255,255,255,0.18)"
             />
-            <motion.rect
+            <rect
+              className="exp-rect-pulse"
               x={x - 14}
               y={42}
               width="28"
@@ -261,8 +228,7 @@ export function WorkflowExplainer() {
               fill="none"
               stroke="url(#wf-g)"
               strokeWidth="1.5"
-              animate={reduce ? undefined : { opacity: [0, 1, 0] }}
-              transition={{ duration: 2.4, delay: i * 0.6, repeat: reduce ? 0 : Infinity }}
+              style={{ animationDelay: `${i * 0.6}s` }}
             />
             <text x={x} y={86} textAnchor="middle" fontSize="7" fontWeight="600" className="fill-foreground">
               {label}
@@ -280,53 +246,35 @@ export function WorkflowExplainer() {
         </defs>
         <line x1="44" y1="56" x2="86" y2="56" stroke="rgba(255,255,255,0.18)" strokeDasharray="3 2" />
         <line x1="114" y1="56" x2="156" y2="56" stroke="rgba(255,255,255,0.18)" strokeDasharray="3 2" />
-        {!reduce &&
-          [44, 114].map((startX, i) => (
-            <motion.circle
-              key={i}
-              cy={56}
-              r="2.5"
-              fill="#fff"
-              initial={{ cx: startX }}
-              animate={{ cx: startX + 42 }}
-              transition={{ duration: 1.4, repeat: Infinity, delay: 0.2 + i * 0.6, ease: "easeInOut" }}
-            />
-          ))}
+        {[44, 114].map((startX, i) => (
+          <circle
+            key={i}
+            className="exp-dot-travel"
+            cx={startX}
+            cy={56}
+            r="2.5"
+            fill="#fff"
+            style={{ animationDelay: `${0.2 + i * 0.6}s` }}
+          />
+        ))}
       </svg>
     </MediaSlot>
   );
 }
 
 export function AssistantsExplainer() {
-  const reduce = useReducedMotion();
   const tools = ["Search", "Draft", "Summarize", "Translate", "Plan", "Email", "Code", "Analyze", "Report"];
   return (
     <MediaSlot>
       <div className="absolute inset-0 grid grid-cols-3 gap-1.5 p-4">
         {tools.map((label, i) => (
-          <motion.div
+          <div
             key={i}
-            className="grid place-items-center rounded-md border border-border bg-surface/60 text-[9px] font-semibold text-foreground/80"
-            animate={
-              reduce
-                ? undefined
-                : {
-                    background: [
-                      "rgba(17,22,42,0.6)",
-                      "rgba(168,85,247,0.35)",
-                      "rgba(17,22,42,0.6)",
-                    ],
-                  }
-            }
-            transition={{
-              duration: 2.4,
-              delay: (i % 3) * 0.2 + Math.floor(i / 3) * 0.3,
-              repeat: reduce ? 0 : Infinity,
-              repeatDelay: 1,
-            }}
+            className="exp-tile-pulse grid place-items-center rounded-md border border-border bg-surface/60 text-[9px] font-semibold text-foreground/80"
+            style={{ animationDelay: `${(i % 3) * 0.2 + Math.floor(i / 3) * 0.3}s` }}
           >
             {label}
-          </motion.div>
+          </div>
         ))}
       </div>
     </MediaSlot>
@@ -334,27 +282,18 @@ export function AssistantsExplainer() {
 }
 
 export function GenerativeExplainer() {
-  const reduce = useReducedMotion();
   const widths = [60, 90, 75, 45];
   return (
     <MediaSlot>
       <div className="absolute inset-0 flex flex-col justify-center gap-2 px-5">
         {widths.map((w, i) => (
-          <motion.div
+          <div
             key={i}
-            className="h-2 overflow-hidden rounded-full bg-foreground/10"
-            initial={{ width: 0 }}
-            animate={reduce ? { width: `${w}%` } : { width: [`0%`, `${w}%`, `${w}%`, `0%`] }}
-            transition={{
-              duration: 4,
-              delay: i * 0.3,
-              repeat: reduce ? 0 : Infinity,
-              times: [0, 0.4, 0.85, 1],
-              ease: "easeInOut",
-            }}
+            className="exp-bar-grow h-2 overflow-hidden rounded-full bg-foreground/10"
+            style={{ width: `${w}%`, animationDelay: `${i * 0.3}s` }}
           >
             <div className="bg-gradient-ailo h-full w-full" />
-          </motion.div>
+          </div>
         ))}
       </div>
     </MediaSlot>

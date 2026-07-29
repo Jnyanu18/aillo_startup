@@ -1,5 +1,3 @@
-import { motion, useReducedMotion } from "framer-motion";
-
 const layers = [
   { label: "Your Product", tone: "from-pink-500/30 to-fuchsia-500/20" },
   { label: "Governance", tone: "from-fuchsia-500/30 to-purple-500/20" },
@@ -10,12 +8,11 @@ const layers = [
 
 /**
  * Signature visual for Section 03 — the "operating layer" stack.
- * A pulse travels up the layers on loop. Reduced-motion users see a
- * static, fully-rendered version.
+ * A pulse travels up the layers on loop (see .stack-sweep in styles.css).
+ * prefers-reduced-motion freezes it via the global transition/animation-
+ * duration override.
  */
 export function StackDiagram() {
-  const reduce = useReducedMotion();
-
   return (
     <div className="relative mx-auto w-full max-w-xl">
       <div className="space-y-2">
@@ -37,25 +34,14 @@ export function StackDiagram() {
               </span>
             </div>
 
-            {!reduce && (
-              <motion.div
-                aria-hidden
-                className="pointer-events-none absolute inset-y-0 left-0 w-24"
-                style={{
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)",
-                }}
-                initial={{ x: "-100%" }}
-                animate={{ x: "420%" }}
-                transition={{
-                  duration: 3.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: (layers.length - 1 - i) * 0.35,
-                  repeatDelay: 1.5,
-                }}
-              />
-            )}
+            <div
+              aria-hidden
+              className="stack-sweep pointer-events-none absolute inset-y-0 left-0 w-24"
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)",
+                animationDelay: `${(layers.length - 1 - i) * 0.35}s`,
+              }}
+            />
           </div>
         ))}
       </div>
