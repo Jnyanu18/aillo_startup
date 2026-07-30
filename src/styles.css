@@ -472,9 +472,14 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
     backdrop-filter: none !important;
     background: rgba(20, 20, 28, 0.72) !important;
   }
+  /* Both of these need their own solid background, not just a dropped
+     blur -- without one they silently inherit the dark rule above,
+     which is exactly the bug that shipped: dark cards on a white page
+     in light mode. */
   .light .glass-card,
   .light .glass-card:hover {
     backdrop-filter: none !important;
+    background: rgba(250, 250, 252, 0.92) !important;
   }
   .ailo-nav {
     backdrop-filter: none !important;
@@ -482,6 +487,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
   }
   .light .ailo-nav {
     backdrop-filter: none !important;
+    background: #ffffff !important;
   }
 
   /* Full-width footer backdrop-blur is another large live-blur surface

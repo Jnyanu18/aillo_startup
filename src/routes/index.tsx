@@ -113,10 +113,10 @@ function Hero({ onCta }: { onCta: () => void }) {
           <div className="mt-10 grid gap-4 md:grid-cols-[1.4fr_1fr]">
             <div className="glass-card glow-indigo flex items-center gap-5 p-6">
               <div className="min-w-0">
-                <div className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/50">
+                <div className="text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
                   Latest case study
                 </div>
-                <div className="font-display mt-1 text-lg leading-snug text-white md:text-xl">
+                <div className="font-display mt-1 text-lg leading-snug text-foreground md:text-xl">
                   Support Pilot — Multichannel
                   <br className="hidden md:inline" /> AI Customer Assistant
                 </div>
@@ -126,12 +126,12 @@ function Hero({ onCta }: { onCta: () => void }) {
               <div className="font-display text-indigo-glow text-5xl font-semibold tracking-tight md:text-6xl">
                 +<CountUp to={23} />%
               </div>
-              <div className="mt-2 text-xs uppercase tracking-[0.2em] text-white/60">
+              <div className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Team productivity growth
               </div>
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-x-8 bottom-3 h-[2px] overflow-hidden rounded-full bg-white/5"
+                className="pointer-events-none absolute inset-x-8 bottom-3 h-[2px] overflow-hidden rounded-full bg-foreground/5"
               >
                 <div className="h-full w-full bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
               </div>
