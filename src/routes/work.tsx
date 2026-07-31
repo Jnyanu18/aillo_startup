@@ -66,9 +66,11 @@ function WorkPage() {
             <Reveal>
               <SectionLabel number="01" title="Client Success Stories" />
             </Reveal>
-            <h1 className="font-display mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-              Real outcomes from <GradientText>real partnerships.</GradientText>
-            </h1>
+            <Reveal delay={0.05}>
+              <h1 className="font-display mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+                Real outcomes from <GradientText>real partnerships.</GradientText>
+              </h1>
+            </Reveal>
             <TiltGrid className="mt-8 grid gap-5 md:grid-cols-3">
               {stories.map((s) => (
                 <div key={s.id} className="flex h-full flex-col glass-card rounded-xl p-8">

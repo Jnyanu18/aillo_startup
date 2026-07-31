@@ -110,9 +110,11 @@ function SolutionsPage() {
             <Reveal>
               <SectionLabel number="01" title="AI Solutions" />
             </Reveal>
-            <h1 className="font-display mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-              The flagship — <GradientText>AI built into your business.</GradientText>
-            </h1>
+            <Reveal delay={0.02}>
+              <h1 className="font-display mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+                The flagship — <GradientText>AI built into your business.</GradientText>
+              </h1>
+            </Reveal>
             <Reveal delay={0.05}>
               <p className="mt-5 max-w-2xl text-sm text-muted-foreground md:text-base">
                 See it in motion. Each preview hints at how the capability works on a real customer
