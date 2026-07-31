@@ -108,9 +108,11 @@ function HirePage() {
             <Reveal>
               <SectionLabel number="01" title="AI Trainings" />
             </Reveal>
-            <h1 className="font-display mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-              Upskill your team — <GradientText>without the fluff.</GradientText>
-            </h1>
+            <Reveal delay={0.02}>
+              <h1 className="font-display mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+                Upskill your team — <GradientText>without the fluff.</GradientText>
+              </h1>
+            </Reveal>
             <Reveal delay={0.05}>
               <p className="mt-5 max-w-2xl text-sm text-muted-foreground md:text-base">
                 Short, intense sessions with a working artefact at the end of every module.

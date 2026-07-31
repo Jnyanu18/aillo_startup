@@ -200,9 +200,11 @@ function HowWeWork() {
         <Reveal>
           <SectionLabel number="01" title="Our process" />
         </Reveal>
-        <h2 className="font-display mt-6 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-5xl">
-          How we work
-        </h2>
+        <Reveal delay={0.05}>
+          <h2 className="font-display mt-6 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-5xl">
+            How we work
+          </h2>
+        </Reveal>
         <Reveal delay={0.1}>
           <p className="mt-4 max-w-xl text-base text-muted-foreground md:text-lg">
             A clear, adaptable framework for implementing AI — because every company's workflows,
