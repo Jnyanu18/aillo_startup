@@ -86,9 +86,7 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
       <nav className="ailo-nav mx-auto flex w-full max-w-5xl items-center justify-between rounded-lg px-4 py-1.5 md:px-5 md:py-2">
         {/* Brand */}
         <a href="#top" onClick={handleBrandClick} className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary">
-            <div className="h-2 w-2 rounded-full bg-primary-foreground/50" />
-          </div>
+          <img src="/images/ailo-mark.png" alt="" className="h-7 w-7 object-contain" width={532} height={486} />
           <span className="ailo-nav-brand font-mono text-sm font-medium tracking-[0.04em]">AILO</span>
         </a>
 

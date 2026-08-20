@@ -101,8 +101,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "AILO (Acceleration Logics) is an AI & technology partner for SMEs. Build, automate, grow — one team for everything you need to scale.",
       },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5c694e90-6a2a-4f4a-b668-afc5a844c36a/id-preview-e638ae28--0c708826-af3f-4fed-a247-088f7bc5bd50.lovable.app-1782401316290.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5c694e90-6a2a-4f4a-b668-afc5a844c36a/id-preview-e638ae28--0c708826-af3f-4fed-a247-088f7bc5bd50.lovable.app-1782401316290.png" },
+      { property: "og:image", content: "https://accelerationlogics.com/images/og-image.png" },
+      { name: "twitter:image", content: "https://accelerationlogics.com/images/og-image.png" },
     ],
     links: [
       // Preloaded so the real Poppins weights (300 body / 400 headings) win
@@ -112,8 +112,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preload", as: "font", type: "font/woff2", href: poppins300Woff2, crossOrigin: "anonymous" },
       { rel: "preload", as: "font", type: "font/woff2", href: poppins400Woff2, crossOrigin: "anonymous" },
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-      { rel: "apple-touch-icon", href: "/favicon.svg" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", sizes: "16x16", href: "/images/favicon-16.png" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/images/favicon-32.png" },
+      { rel: "icon", type: "image/png", sizes: "64x64", href: "/images/favicon-64.png" },
+      { rel: "apple-touch-icon", href: "/images/apple-touch-icon.png" },
     ],
     scripts: [
       {
@@ -124,7 +127,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: "AILO",
           alternateName: "Acceleration Logics",
           url: "https://accelerationlogics.com",
-          logo: "https://accelerationlogics.com/favicon.svg",
+          logo: "https://accelerationlogics.com/images/ailo-mark.png",
           description:
             "AI & technology consulting agency for small and medium businesses.",
           email: "info@accelerationlogics.com",

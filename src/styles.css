@@ -112,36 +112,36 @@
      under the old glassmorphic cards. */
   --radius: 0.5rem;
 
-  /* Warm near-black, no blue-grey -- the site's whole "cinematic" premise
-     depends on the ground never reading as generic dark-SaaS navy. */
-  --background: #0c0a09;
-  --foreground: #f2ede4;
-  --surface: #17130f;
+  /* Neutral black, no warm/brown tint -- ground reads as true black so the
+     gold accent is the only warmth on the page. */
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
+  --surface: #141414;
 
-  --card: #17130f;
-  --card-foreground: #f2ede4;
-  --popover: #191410;
-  --popover-foreground: #f2ede4;
+  --card: #141414;
+  --card-foreground: #f5f5f5;
+  --popover: #171717;
+  --popover-foreground: #f5f5f5;
 
   /* One accent, AILO's existing warm orange leaned toward gold -- used
      as line/edge/glow only from here on, never as a flood or blob. */
   --primary: #d9a13b;
-  --primary-foreground: #100d0b;
+  --primary-foreground: #0a0a0a;
 
-  --secondary: rgba(242,237,228,0.06);
-  --secondary-foreground: #f2ede4;
+  --secondary: rgba(245,245,245,0.06);
+  --secondary-foreground: #f5f5f5;
 
-  --muted: rgba(242,237,228,0.04);
-  --muted-foreground: #a39a8c;
+  --muted: rgba(245,245,245,0.04);
+  --muted-foreground: #a3a3a3;
 
-  --accent: #2a2118;
-  --accent-foreground: #f2ede4;
+  --accent: #1f1f1f;
+  --accent-foreground: #f5f5f5;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --border: rgba(242,237,228,0.14);
-  --input: rgba(242,237,228,0.16);
+  --border: rgba(245,245,245,0.14);
+  --input: rgba(245,245,245,0.16);
   --ring: #d9a13b;
 }
 
@@ -591,9 +591,9 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
   border: 1px solid var(--border);
 }
 .ailo-nav-brand { color: var(--foreground); }
-.ailo-nav-link { color: rgba(242,237,228,0.7); }
+.ailo-nav-link { color: rgba(245,245,245,0.7); }
 .ailo-nav-link:hover, .ailo-nav-link.is-active { color: var(--foreground); }
-.ailo-nav .ailo-nav-link:hover { background: rgba(242,237,228,0.04); }
+.ailo-nav .ailo-nav-link:hover { background: rgba(245,245,245,0.04); }
 
 .light .ailo-nav {
   background: #ffffff;
