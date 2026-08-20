@@ -3,7 +3,7 @@ import { SOCIAL_LINKS, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_INTL } from "@/lib/s
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-transparent backdrop-blur-xl">
+    <footer className="border-t border-border bg-surface">
       <Container className="py-16">
         <div className="grid gap-12 md:grid-cols-5">
           <div className="md:col-span-2">
