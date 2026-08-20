@@ -83,16 +83,13 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
       )}
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
-      <nav className="ailo-nav mx-auto flex w-full max-w-5xl items-center justify-between rounded-xl px-4 py-1.5 md:px-5 md:py-2">
+      <nav className="ailo-nav mx-auto flex w-full max-w-5xl items-center justify-between rounded-lg px-4 py-1.5 md:px-5 md:py-2">
         {/* Brand */}
         <a href="#top" onClick={handleBrandClick} className="flex items-center gap-2">
-          <div
-            className="flex h-6 w-6 items-center justify-center rounded-md shadow-sm"
-            style={{ background: "linear-gradient(135deg, #ffd4b8, #ff8a4c, #ffb088)" }}
-          >
-            <div className="h-2 w-2 rounded-full bg-white/40 blur-[1px]" />
+          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary">
+            <div className="h-2 w-2 rounded-full bg-primary-foreground/50" />
           </div>
-          <span className="ailo-nav-brand text-base font-bold tracking-tight">AILO</span>
+          <span className="ailo-nav-brand font-mono text-sm font-medium tracking-[0.04em]">AILO</span>
         </a>
 
         {/* Links */}
@@ -104,11 +101,7 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
           <ThemeToggle />
           <button
             onClick={onCtaClick}
-            className="rounded-lg px-4 py-1.5 text-xs font-bold text-white shadow-lg transition-transform duration-200 hover:scale-[1.02] active:scale-95"
-            style={{
-              background: "linear-gradient(90deg, #ffd4b8, #ff8a4c, #ffb088)",
-              boxShadow: "0 10px 25px -10px rgba(255, 138, 76, 0.5)",
-            }}
+            className="rounded-md bg-primary px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-primary-foreground transition-opacity hover:opacity-90"
           >
             Book a consultation
           </button>
@@ -129,14 +122,14 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
       </nav>
 
       {open && (
-        <div className="ailo-nav mx-auto mt-2 max-w-6xl rounded-2xl p-4 md:hidden">
+        <div className="ailo-nav mx-auto mt-2 max-w-6xl rounded-lg p-4 md:hidden">
           <div className="flex flex-col gap-1">
             {navLinks.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="ailo-nav-link rounded-md px-3 py-3 text-sm font-bold"
+                className="ailo-nav-link rounded-md px-3 py-3 font-mono text-sm"
               >
                 {l.label}
               </a>
@@ -146,8 +139,7 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
                 setOpen(false);
                 onCtaClick?.();
               }}
-              className="mt-2 rounded-xl px-6 py-3 text-sm font-bold text-white"
-              style={{ background: "linear-gradient(90deg, #ffd4b8, #ff8a4c, #ffb088)" }}
+              className="mt-2 rounded-md bg-primary px-6 py-3 font-mono text-xs uppercase tracking-[0.1em] text-primary-foreground"
             >
               Book a consultation
             </button>
@@ -194,20 +186,14 @@ function NavLinks({ activeHref }: { activeHref: string }) {
       className="relative hidden items-center gap-1 md:flex"
       onMouseLeave={() => setHoverHref(null)}
     >
-      {/* Sliding pill */}
+      {/* Sliding underline -- a line, not a filled pill */}
       <span
         aria-hidden
-        className="pointer-events-none absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ease-out"
+        className="pointer-events-none absolute bottom-0 h-px bg-primary transition-all duration-300 ease-out"
         style={{
           left: pill.x,
           width: pill.w,
-          height: "calc(100% + 4px)",
           opacity: pill.visible ? 1 : 0,
-          background:
-            "linear-gradient(135deg, rgba(255,212,184,0.18), rgba(255,138,76,0.22))",
-          border: "1px solid rgba(255,255,255,0.12)",
-          boxShadow: "0 6px 20px -8px rgba(255,138,76,0.5)",
-          backdropFilter: "blur(8px)",
         }}
       />
       {navLinks.map((l) => (
@@ -219,7 +205,7 @@ function NavLinks({ activeHref }: { activeHref: string }) {
           href={l.href}
           onMouseEnter={() => setHoverHref(l.href)}
           className={cn(
-            "ailo-nav-link relative z-10 rounded-full px-3.5 py-1.5 text-xs font-bold transition-colors duration-200",
+            "ailo-nav-link relative z-10 rounded-md px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors duration-200",
             activeHref === l.href && "is-active",
           )}
         >

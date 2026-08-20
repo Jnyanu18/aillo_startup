@@ -29,24 +29,18 @@ export function FeatureCard({
       )}
       {...props}
     >
-      {/* gradient border on hover */}
+      {/* a single accent edge draws in on hover -- line, not a flood */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300 group-hover:opacity-50"
         style={{
           padding: "1px",
-          background:
-            "linear-gradient(135deg, rgba(129,140,248,0.7), rgba(255,79,139,0.7), rgba(167,139,250,0.7))",
+          background: "linear-gradient(135deg, transparent, var(--primary), transparent)",
           WebkitMask:
             "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",
         }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-60"
-        style={{ background: "radial-gradient(ellipse at top, rgba(255,79,139,0.45), transparent 60%)" }}
       />
       <div className="relative">
         {eyebrow && (
