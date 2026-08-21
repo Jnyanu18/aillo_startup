@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -115,21 +114,57 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
           <ThemeToggle />
           <button
             aria-label="Toggle menu"
-            className="ailo-nav-brand rounded-md p-2"
+            aria-expanded={open}
+            aria-controls="mobile-nav-panel"
+            className="ailo-nav-brand relative flex h-9 w-9 items-center justify-center rounded-md"
             onClick={() => setOpen((s) => !s)}
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {/* 3-bar hamburger that morphs into an X -- plain CSS transform/
+                opacity transitions, no icon-swap, matching the site's
+                CSS-only animation convention. */}
+            <span className="relative block h-4 w-5" aria-hidden>
+              <span
+                className={cn(
+                  "absolute left-0 top-0 h-[2px] w-5 rounded-full bg-current transition-transform duration-300 ease-out",
+                  open && "translate-y-[7px] rotate-45",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute left-0 top-[7px] h-[2px] w-5 rounded-full bg-current transition-opacity duration-200 ease-out",
+                  open && "opacity-0",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute left-0 top-[14px] h-[2px] w-5 rounded-full bg-current transition-transform duration-300 ease-out",
+                  open && "-translate-y-[7px] -rotate-45",
+                )}
+              />
+            </span>
           </button>
         </div>
       </nav>
 
-      {open && (
-        <div className="ailo-nav mx-auto mt-2 max-w-6xl rounded-2xl p-4 md:hidden">
-          <div className="flex flex-col gap-1">
+      {/* Always mounted (not conditionally rendered) so it can animate
+          closed, not just open -- a CSS grid-rows trick collapses it to
+          0 height instead of an instant unmount. */}
+      <div
+        id="mobile-nav-panel"
+        aria-hidden={!open}
+        className={cn(
+          "mx-auto grid max-w-6xl transition-[grid-template-rows,opacity,margin-top] duration-300 ease-out md:hidden",
+          open ? "mt-2 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+          !open && "pointer-events-none",
+        )}
+      >
+        <div className="ailo-nav overflow-hidden rounded-2xl">
+          <div className="flex flex-col gap-1 p-4">
             {navLinks.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
+                tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
                 className="ailo-nav-link rounded-md px-3 py-3 text-sm font-bold"
               >
@@ -137,6 +172,7 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
               </a>
             ))}
             <button
+              tabIndex={open ? 0 : -1}
               onClick={() => {
                 setOpen(false);
                 onCtaClick?.();
@@ -148,7 +184,7 @@ export function SiteNav({ onCtaClick }: SiteNavProps) {
             </button>
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
