@@ -131,12 +131,6 @@ function Hero({ onCta }: { onCta: () => void }) {
               <div className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Team productivity growth
               </div>
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-8 bottom-3 h-[2px] overflow-hidden rounded-full bg-foreground/5"
-              >
-                <div className="h-full w-full bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
-              </div>
             </div>
           </div>
         </HeroIntro>

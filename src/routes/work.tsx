@@ -87,11 +87,6 @@ function WorkPage() {
                 </div>
               ))}
             </TiltGrid>
-            <Reveal delay={0.2}>
-              <p className="mt-6 text-xs text-muted-foreground">
-                Representative outcomes shown — replace with your own client results.
-              </p>
-            </Reveal>
           </Container>
         </section>
         <FinalCta onCta={() => openBooking()} heading="see similar results?" />
