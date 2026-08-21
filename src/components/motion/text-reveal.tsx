@@ -14,7 +14,7 @@ export function TextReveal({
   as?: keyof React.JSX.IntrinsicElements;
   className?: string;
 }) {
-  const { ref, inView } = useInView<HTMLElement>({ margin: "-40px", amount: 0.2 });
+  const { ref, inView } = useInView<HTMLElement>({ margin: "-40px 0px -40px 0px", amount: 0.2 });
   const Tag = As as ElementType;
   const style: CSSProperties = {
     opacity: inView ? 1 : 0,

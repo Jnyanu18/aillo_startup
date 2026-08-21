@@ -17,7 +17,7 @@ export function SlideIn({
   delay?: number;
   className?: string;
 }) {
-  const { ref, inView } = useInView<HTMLDivElement>({ margin: "-40px", amount: 0.1 });
+  const { ref, inView } = useInView<HTMLDivElement>({ margin: "-40px 0px -40px 0px", amount: 0.1 });
   const x = from === "left" ? -18 : from === "right" ? 18 : 0;
   const y = from === "bottom" ? 18 : 0;
   const style: CSSProperties = {
