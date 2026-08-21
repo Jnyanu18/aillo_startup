@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { ArrowRight, Sparkles, Wrench, Workflow, ShieldCheck, Mail, Check } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionLabel } from "@/components/ui/section-label";
@@ -12,8 +12,6 @@ import { AnimatedGlyph } from "@/components/explainers/animated-glyph";
 import { CountUp } from "@/components/explainers/count-up";
 import { TiltGrid } from "@/components/motion/tilt-grid";
 import { HeroIntro } from "@/components/motion/hero-intro";
-import { HeroConstellation } from "@/components/hero-constellation";
-import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -58,7 +56,22 @@ function HomePage() {
 function Hero({ onCta }: { onCta: () => void }) {
   return (
     <section className="relative overflow-hidden pt-24 pb-4 md:pt-32 md:pb-8">
-      <HeroConstellation />
+      {/* Indigo beam */}
+      <div
+        aria-hidden
+        className="beam-light pointer-events-none absolute -top-40 right-[-18%] h-[760px] w-[920px]"
+      />
+      {/* Aurora blobs */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-44 top-44 h-[420px] w-[420px] rounded-full opacity-25 blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(255,138,76,0.20) 0%, transparent 72%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-8 top-[58%] h-[360px] w-[360px] rounded-full opacity-20 blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(255,176,136,0.18) 0%, transparent 72%)" }}
+      />
 
       <Container className="relative">
         <HeroIntro>
@@ -88,7 +101,7 @@ function Hero({ onCta }: { onCta: () => void }) {
             </Button>
             <a
               href="/work"
-              className="text-sm font-medium text-muted-foreground underline-offset-4 transition hover:text-foreground hover:underline"
+              className="text-sm font-medium text-white/70 underline-offset-4 transition hover:text-white hover:underline"
             >
               See our work →
             </a>
@@ -120,7 +133,7 @@ function Hero({ onCta }: { onCta: () => void }) {
                 aria-hidden
                 className="pointer-events-none absolute inset-x-8 bottom-3 h-[2px] overflow-hidden rounded-full bg-foreground/5"
               >
-                <div className="h-full w-full bg-gradient-to-r from-transparent via-primary to-transparent" />
+                <div className="h-full w-full bg-gradient-to-r from-transparent via-pink-400 to-transparent" />
               </div>
             </div>
           </div>
@@ -169,18 +182,20 @@ const PROCESS_STEPS: Array<{
   },
 ];
 
-/**
- * The process, read as time rather than a static grid -- click or hover a
- * stage and the panel below cross-fades to it. A restrained stand-in for
- * the brief's run-of-show scrubber, scaled to a homepage section rather
- * than a full project timeline.
- */
 function HowWeWork() {
-  const [active, setActive] = useState(0);
-  const step = PROCESS_STEPS[active];
-
   return (
-    <section id="process" className="relative scroll-mt-20 border-t border-border py-8 md:py-12">
+    <section
+      id="process"
+      className="relative scroll-mt-20 overflow-hidden border-t border-white/5 py-8 md:py-12"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-96 opacity-60"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 0%, rgba(79,70,229,0.16) 0%, transparent 60%)",
+        }}
+      />
       <Container className="relative">
         <Reveal>
           <SectionLabel number="01" title="Our process" />
@@ -197,59 +212,39 @@ function HowWeWork() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.15}>
-          <div className="mt-10">
-            {/* Stage strip */}
-            <div
-              className="flex flex-wrap gap-x-8 gap-y-3 border-b border-border"
-              role="tablist"
-              aria-label="Our process, by stage"
-            >
-              {PROCESS_STEPS.map((s, i) => (
-                <button
-                  key={s.n}
-                  role="tab"
-                  aria-selected={active === i}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  onClick={() => setActive(i)}
-                  className={cn(
-                    "flex cursor-pointer items-center gap-2 border-b-2 pb-3 font-mono text-xs uppercase tracking-[0.12em] transition-colors",
-                    active === i
-                      ? "border-primary text-foreground"
-                      : "border-transparent text-muted-foreground hover:text-foreground/80",
-                  )}
-                >
-                  <span className={active === i ? "text-primary" : ""}>{s.n}</span>
-                  {s.title}
-                </button>
-              ))}
-            </div>
-
-            {/* Cross-fading panel -- remounts (and replays panel-fade) on
-                every stage change via the changing `key`, no JS transition
-                library needed. */}
-            <div key={active} role="tabpanel" className="panel-fade mt-8 grid gap-6 md:grid-cols-[auto_1fr]">
-              <div className="font-display text-6xl leading-none text-primary/25 md:text-7xl">{step.n}</div>
-              <div>
-                <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] md:text-3xl">
-                  {step.title}
-                </h3>
-                <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {step.desc}
-                </p>
-                <ul className="mt-4 space-y-2">
-                  {step.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+        <div className="relative mt-10">
+          {/* Horizontal connector line behind the cards (desktop) */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-0 right-0 top-10 hidden h-px bg-gradient-to-r from-transparent via-pink-400/40 to-transparent md:block"
+          />
+          <div className="grid gap-4 md:grid-cols-4">
+            {PROCESS_STEPS.map((step, i) => (
+              <Reveal key={step.n} delay={i * 0.08}>
+                <div className="relative flex h-full flex-col glass-card rounded-xl p-6">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-pink-400">
+                      {step.n}
+                    </span>
+                    <span className="h-px flex-1 bg-border" />
+                  </div>
+                  <h3 className="font-display text-indigo-glow mt-4 text-2xl font-semibold tracking-[-0.02em]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/70">{step.desc}</p>
+                  <ul className="mt-4 space-y-2">
+                    {step.bullets.slice(0, 2).map((b) => (
+                      <li key={b} className="flex items-start gap-2 text-xs text-white/70">
+                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-pink-400" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </Reveal>
+        </div>
       </Container>
     </section>
   );
@@ -510,8 +505,11 @@ function FinalCta({ onCta }: { onCta: () => void }) {
     <section className="relative overflow-hidden border-t border-border py-8 md:py-12">
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-px w-[70%] max-w-2xl -translate-x-1/2 opacity-20"
-        style={{ background: "linear-gradient(90deg, transparent, var(--primary), transparent)" }}
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[1000px] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(79,70,229,0.5) 0%, rgba(167,139,250,0.25) 40%, transparent 75%)",
+        }}
       />
       <Container className="relative text-center">
         <Reveal>
