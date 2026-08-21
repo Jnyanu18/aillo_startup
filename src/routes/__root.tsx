@@ -86,6 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "AILO (Acceleration Logics) is an AI & technology partner for SMEs. Build, automate, grow — one team for everything you need to scale.",
       },
       { name: "author", content: "AILO" },
+      { name: "msvalidate.01", content: "CE73DEFC34B59428139A3D323106DC3C" },
       { property: "og:site_name", content: "AILO" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
