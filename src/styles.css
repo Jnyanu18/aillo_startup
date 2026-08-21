@@ -9,20 +9,15 @@
    only what's actually used trims real CSS payload from every page. */
 @import "@fontsource/poppins/300.css";
 @import "@fontsource/poppins/400.css";
-@import "@fontsource/instrument-serif/latin-400.css";
-@import "@fontsource/geist-mono/latin-400.css";
-@import "@fontsource/geist-mono/latin-500.css";
 
 /* fontsource ships font-display: swap, which reflows text (and whatever
    sits near it) the moment the real font arrives -- preloading it just
    makes that swap happen sooner, it doesn't stop the shift. Redeclaring
-   the weights actually rendered above the fold with `optional` here
-   (same family/weight/unicode-range, so it takes over from the imports
-   above) means the browser only swaps the real face in if it's already
-   cached from a prior visit; otherwise it commits to the fallback for
-   this paint with no later reflow. Measured fix for the site's only
-   real CLS regression -- applied to every display-critical face now,
-   not just Poppins. */
+   the two latin weights actually rendered with `optional` here (same
+   family/weight/unicode-range, so it takes over from the imports above)
+   means the browser only swaps in Poppins if it's already cached from a
+   prior visit; otherwise it commits to the fallback for this paint with
+   no later reflow. Measured fix for the site's only real CLS regression. */
 @font-face {
   font-family: "Poppins";
   font-style: normal;
@@ -39,37 +34,12 @@
   src: url("@fontsource/poppins/files/poppins-latin-400-normal.woff2") format("woff2");
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-@font-face {
-  font-family: "Instrument Serif";
-  font-style: normal;
-  font-display: optional;
-  font-weight: 400;
-  src: url("@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: "Geist Mono";
-  font-style: normal;
-  font-display: optional;
-  font-weight: 400;
-  src: url("@fontsource/geist-mono/files/geist-mono-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: "Geist Mono";
-  font-style: normal;
-  font-display: optional;
-  font-weight: 500;
-  src: url("@fontsource/geist-mono/files/geist-mono-latin-500-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -98,51 +68,46 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-indigo-glow: #f0c896;
-  --color-indigo-deep: #d9a13b;
-  --color-violet-glow: #e8b869;
+  --color-indigo-glow: #ffd4b8;
+  --color-indigo-deep: #ff8a4c;
+  --color-violet-glow: #ffb088;
 
-  --color-gradient-start: #f0c896;
-  --color-gradient-mid: #d9a13b;
-  --color-gradient-end: #e8b869;
+  --color-gradient-start: #ffd4b8;
+  --color-gradient-mid: #ff8a4c;
+  --color-gradient-end: #ffb088;
 }
 
 :root {
-  /* 8px chrome radius per the new flat/line-based direction -- was 16px
-     under the old glassmorphic cards. */
-  --radius: 0.5rem;
+  --radius: 1rem;
 
-  /* Neutral black, no warm/brown tint -- ground reads as true black so the
-     gold accent is the only warmth on the page. */
-  --background: #0a0a0a;
-  --foreground: #f5f5f5;
-  --surface: #141414;
+  /* Premium dark */
+  --background: #0A0A0E;
+  --foreground: #f4f5ff;
+  --surface: rgba(255,255,255,0.04);
 
-  --card: #141414;
-  --card-foreground: #f5f5f5;
-  --popover: #171717;
-  --popover-foreground: #f5f5f5;
+  --card: rgba(255,255,255,0.035);
+  --card-foreground: #f4f5ff;
+  --popover: #14141c;
+  --popover-foreground: #f4f5ff;
 
-  /* One accent, AILO's existing warm orange leaned toward gold -- used
-     as line/edge/glow only from here on, never as a flood or blob. */
-  --primary: #d9a13b;
-  --primary-foreground: #0a0a0a;
+  --primary: #ff8a4c;
+  --primary-foreground: #ffffff;
 
-  --secondary: rgba(245,245,245,0.06);
-  --secondary-foreground: #f5f5f5;
+  --secondary: rgba(255,255,255,0.06);
+  --secondary-foreground: #f4f5ff;
 
-  --muted: rgba(245,245,245,0.04);
-  --muted-foreground: #a3a3a3;
+  --muted: rgba(255,255,255,0.04);
+  --muted-foreground: #a5a8c8;
 
-  --accent: #1f1f1f;
-  --accent-foreground: #f5f5f5;
+  --accent: #1e1e5a;
+  --accent-foreground: #f4f5ff;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --border: rgba(245,245,245,0.14);
-  --input: rgba(245,245,245,0.16);
-  --ring: #d9a13b;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #ff8a4c;
 }
 
 @layer base {
@@ -188,84 +153,129 @@
 .font-medium { font-weight: 300 !important; }
 h1, h2, h3, h4, h5, h6 { font-weight: 400; }
 
-/* A single accent used as line/edge/glow, never a flood -- this replaces
-   the old three-stop peach gradient everywhere it was standing in for
-   "brand color" on text and fills. */
 @utility text-gradient {
-  color: var(--primary);
+  background-image: linear-gradient(135deg, #ffd4b8 0%, #ff8a4c 50%, #ffb088 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 @utility bg-gradient-ailo {
-  background: var(--primary);
+  background-image: linear-gradient(135deg, #ffd4b8 0%, #ff8a4c 50%, #ffb088 100%);
 }
 
 @utility hairline {
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ---------- Flat card: 1px edge, solid warm surface, no glass -------- */
+/* ---------- Glass card (premium glassmorphism) ---------- */
 @utility glass-card {
   position: relative;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  background: var(--surface);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.035);
   overflow: hidden;
-  transition: border-color 0.25s ease;
+  isolation: isolate;
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 20px 50px -25px rgba(0, 0, 0, 0.6);
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, transform 0.45s cubic-bezier(.2,.7,.2,1);
+  will-change: transform;
 }
 .glass-card:hover {
-  border-color: rgba(217,161,59,0.4);
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(28px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 36px 70px -25px rgba(124, 58, 237, 0.45);
 }
-/* A single 1px accent edge draws in on hover -- the line-as-ornament
-   idea from the brand direction, not a flood of color. */
+/* Animated gradient border */
 .glass-card::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, transparent, var(--primary), transparent);
+  background: linear-gradient(135deg, rgba(167,139,250,0.0), rgba(255,138,76,0.0));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease, background 0.35s ease;
   pointer-events: none;
 }
 .glass-card:hover::before {
-  opacity: 0.5;
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(167,139,250,0.6), rgba(255,138,76,0.6) 50%, rgba(167,139,250,0.6));
 }
+/* Cursor-tracked sheen inside each card */
+.glass-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(255,180,140,0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.glass-card:hover::after { opacity: 1; }
+/* Content lift inside glass cards on hover */
+.glass-card > * { transition: transform 0.4s cubic-bezier(.2,.7,.2,1); position: relative; z-index: 1; }
+.glass-card:hover > * { transform: translateY(-3px); }
 
-/* glow-* used to be full gradient-blob washes behind card headings;
-   the direction now forbids flooding a surface with color, so these
-   collapse to the same flat surface as every other card. */
+
 @utility glow-indigo {
-  background: var(--surface);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124, 58, 237, 0.18) 0%, transparent 60%),
+    rgba(255, 255, 255, 0.035);
 }
 @utility glow-violet {
-  background: var(--surface);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 122, 89, 0.18) 0%, transparent 60%),
+    rgba(255, 255, 255, 0.035);
 }
 @utility glow-deep {
-  background: var(--surface);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(49, 46, 129, 0.25) 0%, transparent 60%),
+    rgba(255, 255, 255, 0.035);
 }
 
 @utility text-indigo-glow {
-  color: var(--primary);
+  background-image: linear-gradient(180deg, #ffb088 0%, #ff8a4c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 @utility text-violet-glow {
-  color: var(--primary);
+  background-image: linear-gradient(180deg, #ffb088 0%, #ea580c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Light mode uses a darker shade of the same accent so it stays legible
-   on a bright surface. */
-.light .text-indigo-glow,
+/* Light-mode override: deeper pinks so gradient text stays legible on white */
+.light .text-indigo-glow {
+  background-image: linear-gradient(180deg, #ff8a4c 0%, #c2410c 100%);
+}
 .light .text-violet-glow {
-  color: #9c6a1f;
+  background-image: linear-gradient(180deg, #ff8a4c 0%, #9a3412 100%);
 }
 
-/* Was a large blurred gradient wash behind the hero; replaced by the
-   constellation hero's own thin lines and points -- see index.tsx. */
+/* Indigo beam */
 @utility beam-light {
-  background: none;
+  background:
+    radial-gradient(ellipse 58% 42% at 82% 4%, rgba(255, 138, 76, 0.18) 0%, transparent 58%),
+    conic-gradient(from 205deg at 76% -12%, transparent 0deg, rgba(255, 212, 184, 0.12) 10deg, transparent 24deg);
+  filter: blur(52px);
 }
 
 /* ---- AnimatedGlyph: tasteful, slow, looping icon motion -------------- */
@@ -306,29 +316,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
 }
 .stack-sweep {
   animation: stack-sweep 5s ease-in-out infinite;
-}
-
-/* Pause every animation inside a MediaSlot while it's off-screen (see
-   media-slot.tsx). /solutions and /hire stack up to a dozen of these,
-   each with several infinite loops -- letting all of them run at once
-   regardless of visibility is wasted CPU and was a real contributor to
-   Speed Index never seeing the page "settle" (Lighthouse measures
-   continued visual change, and looping animations count as that even
-   when nothing is actually broken or janky). */
-.media-slot-paused,
-.media-slot-paused * {
-  animation-play-state: paused !important;
-}
-
-/* Process-stage panel cross-fade: replays whenever React remounts the
-   panel via a changing `key`, so switching stages needs no JS transition
-   library -- just opacity/transform, composited only. */
-@keyframes panel-fade {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.panel-fade {
-  animation: panel-fade 0.35s ease-out;
 }
 
 /* ---- solution-explainers.tsx: 7 compact animated diagrams ------------ */
@@ -385,13 +372,12 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
 .exp-rect-pulse { animation: exp-rect-pulse 2.4s ease-in-out infinite; }
 .exp-dot-travel { animation: exp-dot-travel 1.4s ease-in-out infinite; }
 
-/* AssistantsExplainer: tile purple pulse via a composited opacity overlay
-   (background-color itself would trigger paint on every frame instead of
-   staying on the compositor). 3.4s cycle = 2.4s active + 1s pause. */
+/* AssistantsExplainer: tile background pulse, hold, pause.
+   3.4s cycle = 2.4s active + 1s pause. */
 @keyframes exp-tile-pulse {
-  0%, 100% { opacity: 0; }
-  35.3% { opacity: 1; }
-  70.6% { opacity: 0; }
+  0%, 100% { background-color: rgba(17,22,42,0.6); }
+  35.3% { background-color: rgba(168,85,247,0.35); }
+  70.6% { background-color: rgba(17,22,42,0.6); }
 }
 .exp-tile-pulse { animation: exp-tile-pulse 3.4s ease-in-out infinite; }
 
@@ -450,37 +436,70 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
 .exp-path-draw { stroke-dasharray: 1; animation: exp-path-draw 4s ease-in-out infinite; }
 .exp-dot-path-travel { animation: exp-dot-path-travel 4s ease-in-out infinite; }
 
-/* RolesExplainer: tile background pulse via the same composited opacity
-   overlay technique as exp-tile-pulse. 2.5s cycle = 1.6s active + 0.9s
-   pause. */
+/* RolesExplainer: tile background + text color pulse.
+   2.5s cycle = 1.6s active + 0.9s pause. */
 @keyframes exp-role-pulse {
-  0%, 100% { opacity: 0; }
-  32% { opacity: 1; }
-  64% { opacity: 0; }
+  0%, 100% { background-color: rgba(17,22,42,0.6); color: rgba(138,148,176,1); }
+  32% { background-color: rgba(79,124,255,0.35); color: rgba(244,246,251,1); }
+  64% { background-color: rgba(17,22,42,0.6); color: rgba(138,148,176,1); }
 }
 .exp-role-pulse { animation: exp-role-pulse 2.5s ease-in-out infinite; }
 
-/* ToolsExplainer: icon tiles bob (transform, composited) with a border-
-   highlight ring that fades in via its own opacity overlay rather than
-   animating border-color directly. 2.6s cycle = 1.6s active + 1s pause. */
+/* ToolsExplainer: icon tiles bob + border pulse.
+   2.6s cycle = 1.6s active + 1s pause. */
 @keyframes exp-tool-bob {
-  0%, 100% { transform: translateY(0); }
-  30.8% { transform: translateY(-6px); }
-  61.5% { transform: translateY(0); }
-}
-@keyframes exp-tool-ring {
-  0%, 100% { opacity: 0; }
-  30.8% { opacity: 1; }
-  61.5% { opacity: 0; }
+  0%, 100% { transform: translateY(0); border-color: rgba(255,255,255,0.08); }
+  30.8% { transform: translateY(-6px); border-color: rgba(168,85,247,0.7); }
+  61.5% { transform: translateY(0); border-color: rgba(255,255,255,0.08); }
 }
 .exp-tool-bob { animation: exp-tool-bob 2.6s ease-in-out infinite; }
-.exp-tool-ring { animation: exp-tool-ring 2.6s ease-in-out infinite; }
 
-/* Nothing in the flat/line-based chrome uses backdrop-filter or blob-
-   shaped color fills any more (see ambient-backdrop.tsx, .glass-card,
-   .ailo-nav, and the footer), so the mobile-only overrides that used to
-   defeat the live-blur GPU cost on scroll no longer have anything to
-   override -- the base rules are already this cheap on every device. */
+/* Ambient backdrop blobs are decorative and no longer animate (see
+   ambient-backdrop.tsx); on mobile also halve the blur radius since a
+   large blurred layer is expensive to rasterize on weaker GPUs. */
+@media (max-width: 768px) {
+  .ambient-blob {
+    filter: blur(32px);
+  }
+
+  /* .glass-card and the fixed nav both use a live backdrop-filter blur,
+     which forces the browser to resample everything behind them on
+     every scroll frame — one of the most expensive things a mobile GPU
+     can be asked to do while scrolling. Drop it on mobile in favor of a
+     solid approximation; desktop keeps the full glassmorphism untouched. */
+  .glass-card,
+  .glass-card:hover {
+    backdrop-filter: none !important;
+    background: rgba(20, 20, 28, 0.72) !important;
+  }
+  /* Both of these need their own solid background, not just a dropped
+     blur -- without one they silently inherit the dark rule above,
+     which is exactly the bug that shipped: dark cards on a white page
+     in light mode. */
+  .light .glass-card,
+  .light .glass-card:hover {
+    backdrop-filter: none !important;
+    background: rgba(250, 250, 252, 0.92) !important;
+  }
+  .ailo-nav {
+    backdrop-filter: none !important;
+    background: rgba(18, 18, 26, 0.86) !important;
+  }
+  .light .ailo-nav {
+    backdrop-filter: none !important;
+    background: #ffffff !important;
+  }
+
+  /* Full-width footer backdrop-blur is another large live-blur surface
+     that's expensive while it's in view during scroll. */
+  footer.backdrop-blur-xl {
+    backdrop-filter: none !important;
+    background: rgba(10, 10, 15, 0.6) !important;
+  }
+  .light footer.backdrop-blur-xl {
+    background: rgba(255, 255, 255, 0.85) !important;
+  }
+}
 
 
 
@@ -585,19 +604,25 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; }
 /* Cursor follower disabled feel — keep visible but tone it down in light */
 .light .bg-indigo-400 { background-color: #ff8a4c !important; }
 
-/* ---------- Site nav: flat warm surface, no blur, dark by default ---------- */
+/* ---------- Site nav (dark by default, white in light) ---------- */
 .ailo-nav {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 12px 30px -12px rgba(0, 0, 0, 0.7);
 }
-.ailo-nav-brand { color: var(--foreground); }
-.ailo-nav-link { color: rgba(245,245,245,0.7); }
-.ailo-nav-link:hover, .ailo-nav-link.is-active { color: var(--foreground); }
-.ailo-nav .ailo-nav-link:hover { background: rgba(245,245,245,0.04); }
+.ailo-nav-brand { color: #ffffff; }
+.ailo-nav-link { color: rgba(255, 255, 255, 0.8); }
+.ailo-nav-link:hover, .ailo-nav-link.is-active { color: #ffffff; }
+.ailo-nav-link:hover { background: transparent; }
+.ailo-nav .ailo-nav-link:hover { background: rgba(255,255,255,0.04); }
 
 .light .ailo-nav {
   background: #ffffff;
   border-color: #f4f4f5;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 .light .ailo-nav-brand { color: #09090b; }
 .light .ailo-nav-link { color: #09090b; }

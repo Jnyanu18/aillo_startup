@@ -14,9 +14,9 @@ export function AutomationExplainer() {
       <svg viewBox="0 0 200 112" className="h-full w-full">
         <defs>
           <linearGradient id="auto-g" x1="0" x2="1">
-            <stop offset="0" stopColor="#e8b869" />
-            <stop offset="0.5" stopColor="#d9a13b" />
-            <stop offset="1" stopColor="#9c6a1f" />
+            <stop offset="0" stopColor="#4f7cff" />
+            <stop offset="0.5" stopColor="#a855f7" />
+            <stop offset="1" stopColor="#ec4899" />
           </linearGradient>
         </defs>
         {/* nodes */}
@@ -144,8 +144,8 @@ export function IntegrationsExplainer() {
       <svg viewBox="0 0 200 112" className="h-full w-full">
         <defs>
           <linearGradient id="int-g" x1="0" x2="1">
-            <stop offset="0" stopColor="#e8b869" />
-            <stop offset="1" stopColor="#9c6a1f" />
+            <stop offset="0" stopColor="#4f7cff" />
+            <stop offset="1" stopColor="#ec4899" />
           </linearGradient>
         </defs>
         {/* hub */}
@@ -240,8 +240,8 @@ export function WorkflowExplainer() {
         ))}
         <defs>
           <linearGradient id="wf-g" x1="0" x2="1">
-            <stop offset="0" stopColor="#e8b869" />
-            <stop offset="1" stopColor="#9c6a1f" />
+            <stop offset="0" stopColor="#4f7cff" />
+            <stop offset="1" stopColor="#ec4899" />
           </linearGradient>
         </defs>
         <line x1="44" y1="56" x2="86" y2="56" stroke="rgba(255,255,255,0.18)" strokeDasharray="3 2" />
@@ -270,14 +270,10 @@ export function AssistantsExplainer() {
         {tools.map((label, i) => (
           <div
             key={i}
-            className="relative grid place-items-center overflow-hidden rounded-md border border-border bg-surface/60 text-[9px] font-semibold text-foreground/80"
+            className="exp-tile-pulse grid place-items-center rounded-md border border-border bg-surface/60 text-[9px] font-semibold text-foreground/80"
+            style={{ animationDelay: `${(i % 3) * 0.2 + Math.floor(i / 3) * 0.3}s` }}
           >
-            <div
-              aria-hidden
-              className="exp-tile-pulse absolute inset-0 bg-[rgba(217,161,59,0.35)]"
-              style={{ animationDelay: `${(i % 3) * 0.2 + Math.floor(i / 3) * 0.3}s` }}
-            />
-            <span className="relative">{label}</span>
+            {label}
           </div>
         ))}
       </div>

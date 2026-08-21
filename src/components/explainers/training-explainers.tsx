@@ -29,8 +29,8 @@ export function FundamentalsExplainer() {
       <svg viewBox="0 0 200 112" className="h-full w-full">
         <defs>
           <linearGradient id="fn-g" x1="0" x2="1">
-            <stop offset="0" stopColor="#e8b869" />
-            <stop offset="1" stopColor="#d9a13b" />
+            <stop offset="0" stopColor="#4f7cff" />
+            <stop offset="1" stopColor="#a855f7" />
           </linearGradient>
         </defs>
         {edges.map(([a, b], i) => (
@@ -102,8 +102,8 @@ export function LeadersExplainer() {
       <svg viewBox="0 0 200 112" className="h-full w-full">
         <defs>
           <linearGradient id="ld-g" x1="0" x2="1">
-            <stop offset="0" stopColor="#e8b869" />
-            <stop offset="1" stopColor="#9c6a1f" />
+            <stop offset="0" stopColor="#4f7cff" />
+            <stop offset="1" stopColor="#ec4899" />
           </linearGradient>
         </defs>
         {/* grid */}
@@ -122,7 +122,7 @@ export function LeadersExplainer() {
         <circle
           className="exp-dot-path-travel"
           r="3.5"
-          fill="#9c6a1f"
+          fill="#ec4899"
           style={{ offsetPath: `path('${d}')` }}
         />
       </svg>
@@ -138,14 +138,10 @@ export function RolesExplainer() {
         {roles.map((r, i) => (
           <div
             key={r}
-            className="relative overflow-hidden rounded-md border border-border px-2 py-1 text-center text-[9px] uppercase tracking-wider text-muted-foreground"
+            className="exp-role-pulse rounded-md border border-border px-2 py-1 text-center text-[9px] uppercase tracking-wider"
+            style={{ animationDelay: `${i * 0.35}s` }}
           >
-            <div
-              aria-hidden
-              className="exp-role-pulse absolute inset-0 bg-[rgba(217,161,59,0.35)]"
-              style={{ animationDelay: `${i * 0.35}s` }}
-            />
-            <span className="relative">{r}</span>
+            {r}
           </div>
         ))}
       </div>
@@ -160,14 +156,9 @@ export function ToolsExplainer() {
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className="exp-tool-bob relative h-9 w-9 rounded-lg border border-white/[0.08] bg-surface"
+            className="exp-tool-bob h-9 w-9 rounded-lg border bg-surface"
             style={{ animationDelay: `${i * 0.25}s` }}
           >
-            <div
-              aria-hidden
-              className="exp-tool-ring absolute inset-0 rounded-lg border border-[rgba(217,161,59,0.7)]"
-              style={{ animationDelay: `${i * 0.25}s` }}
-            />
             <div className="bg-gradient-ailo m-1.5 h-2 w-2 rounded-full opacity-80" />
           </div>
         ))}

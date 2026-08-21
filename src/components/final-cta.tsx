@@ -15,11 +15,13 @@ export function FinalCta({
 }) {
   return (
     <section className="relative overflow-hidden border-t border-border py-8 md:py-12">
-      {/* a single thin accent line, not a color wash */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-px w-[70%] max-w-2xl -translate-x-1/2 opacity-20"
-        style={{ background: "linear-gradient(90deg, transparent, var(--primary), transparent)" }}
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[1000px] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(79,70,229,0.5) 0%, rgba(167,139,250,0.25) 40%, transparent 75%)",
+        }}
       />
       <Container className="relative text-center">
         <Reveal>
