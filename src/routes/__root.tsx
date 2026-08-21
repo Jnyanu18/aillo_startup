@@ -87,6 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "AILO" },
       { name: "msvalidate.01", content: "CE73DEFC34B59428139A3D323106DC3C" },
+      { name: "google-site-verification", content: "rfw16MaoeZ4eSSj_xTHV0ifTcBlz-Vcq5D4O4c1kDz8" },
       { property: "og:site_name", content: "AILO" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
