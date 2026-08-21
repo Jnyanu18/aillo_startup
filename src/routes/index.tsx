@@ -80,10 +80,12 @@ function Hero({ onCta }: { onCta: () => void }) {
 
         <HeroIntro delay={0.1}>
           <h1 className="font-display mt-4 max-w-5xl text-5xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-6xl md:text-7xl xl:text-[96px]">
-            <span className="block">Acceleration logics</span>
-            <span className="block">
-              for <span className="inline-block italic font-light leading-[1.15] text-foreground/90">modern business.</span>
-            </span>
+            {/* Below sm, no forced break -- "for" flows naturally after
+                "logics" instead of being orphaned on its own line. At sm+
+                there's room for the balanced two-line "Acceleration logics"
+                / "for modern business." split the design intends. */}
+            Acceleration logics<br className="hidden sm:block" />{" "}
+            for <span className="inline-block italic font-light leading-[1.15] text-foreground/90">modern business.</span>
           </h1>
         </HeroIntro>
 
