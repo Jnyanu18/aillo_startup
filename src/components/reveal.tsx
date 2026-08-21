@@ -30,7 +30,7 @@ export function Reveal({
   delay?: number;
   from?: From;
 }) {
-  const { ref, inView } = useInView<HTMLDivElement>({ margin: "-40px", amount: 0.1 });
+  const { ref, inView } = useInView<HTMLDivElement>({ margin: "-40px 0px -40px 0px", amount: 0.1 });
   const o = OFFSETS[from];
   const style: CSSProperties = {
     opacity: inView ? 1 : 0,

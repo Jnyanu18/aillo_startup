@@ -14,7 +14,11 @@ interface CountUpProps {
  * Respects prefers-reduced-motion.
  */
 export function CountUp({ to, duration = 1.6, prefix = "", suffix = "", decimals = 0 }: CountUpProps) {
-  const { ref, inView } = useInView<HTMLSpanElement>({ margin: "-80px", amount: 0.15 });
+  // Vertical-only margin: a plain "-80px" shrinks the trigger zone on
+  // every side, including left/right -- on a narrow mobile 2-col grid
+  // that pushes edge tiles' number spans permanently outside the zone,
+  // so their counter never fires and they're stuck showing 0 forever.
+  const { ref, inView } = useInView<HTMLSpanElement>({ margin: "-80px 0px -80px 0px", amount: 0.15 });
   const reduce = useReducedMotion();
   const [value, setValue] = useState(reduce ? to : 0);
 
